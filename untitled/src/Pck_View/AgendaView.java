@@ -19,7 +19,7 @@ public class AgendaView extends JFrame implements ActionListener {
     AgendaControl agendaControl = new AgendaControl();
 
     public AgendaView() {
-        setTitle("Gabriela cu de rodela");
+        setTitle("Gabriela cu de rodela mudado");
         setBounds(100, 100, 430, 300);
 
         texto = new JLabel("Gabriela libera o Murilo");
