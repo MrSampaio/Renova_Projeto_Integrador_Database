@@ -4,14 +4,14 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
-public class AgendaView extends JFrame{
+public class AgendaView extends JFrame {
     private static final long serialVersionUI = 1L;
 
     JLabel texto;
     JTextField caixaTexto;
     JButton botaoInsert;
 
-    public AgendaView(){
+    public AgendaView() {
         setTitle("Gabriela cu de rodela");
         setBounds(100, 100, 430, 300);
 
@@ -32,11 +32,6 @@ public class AgendaView extends JFrame{
 
     }
 
-
-
-<<<<<<< HEAD
-=======
-public class AgendaView {
-  // pinto
->>>>>>> 90bae7efa74fceffa6922981d863b8c05bc29ac2
 }
+
+
