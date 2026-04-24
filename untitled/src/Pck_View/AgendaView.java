@@ -1,10 +1,13 @@
 package Pck_View;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class AgendaView extends JFrame {
+public class AgendaView extends JFrame implements ActionListener {
     private static final long serialVersionUI = 1L;
 
     JLabel texto;
@@ -29,7 +32,15 @@ public class AgendaView extends JFrame {
         getContentPane().add(caixaTexto);
         getContentPane().add(botaoInsert);
 
+        botaoInsert.addActionListener(this);
 
+
+    }
+
+    public void actionPerformed(ActionEvent e){
+        if(e.getSource() == botaoInsert){
+            texto.setText("Cu");
+        }
     }
 
     public static void main(String[] args) {
