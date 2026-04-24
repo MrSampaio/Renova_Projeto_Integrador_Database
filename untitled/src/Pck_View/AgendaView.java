@@ -7,12 +7,16 @@ import javax.swing.JButton;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import Pck_Control.AgendaControl;
+
 public class AgendaView extends JFrame implements ActionListener {
     private static final long serialVersionUI = 1L;
 
     JLabel texto;
     JTextField caixaTexto;
     JButton botaoInsert;
+
+    AgendaControl agendaControl = new AgendaControl();
 
     public AgendaView() {
         setTitle("Gabriela cu de rodela");

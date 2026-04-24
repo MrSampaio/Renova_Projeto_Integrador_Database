@@ -1,13 +1,12 @@
 package Pck_Control;
+import Pck_Model.AgendaModel;
 
 public class AgendaControl {
-    private String texto;
+    AgendaModel agendaModel = new AgendaModel();
 
-    public void setTexto(String texto) {
-        this.texto = texto;
-    }
 
-    public String getTexto(){
-        return texto;
+    public void insertAgenda(String texto){
+        agendaModel.setTexto(texto);
     }
 }
+
