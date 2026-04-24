@@ -34,4 +34,9 @@ public class AgendaView extends JFrame{
 
 
 
+<<<<<<< HEAD
+=======
+public class AgendaView {
+  // pinto
+>>>>>>> 90bae7efa74fceffa6922981d863b8c05bc29ac2
 }
