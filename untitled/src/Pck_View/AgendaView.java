@@ -43,7 +43,7 @@ public class AgendaView extends JFrame implements ActionListener {
 
     public void actionPerformed(ActionEvent e){
         if(e.getSource() == botaoInsert){
-            texto.setText("Cu");
+           agendaControl.insertAgenda(texto.getText());
         }
     }
 

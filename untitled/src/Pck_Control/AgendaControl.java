@@ -4,9 +4,9 @@ import Pck_Model.AgendaModel;
 public class AgendaControl {
     AgendaModel agendaModel = new AgendaModel();
 
-
     public void insertAgenda(String texto){
-        agendaModel.setTexto(texto);
+        agendaModel.setText(texto);
+        System.out.println("Chegou o bagulho: " + agendaModel.getText());
     }
 }
 
