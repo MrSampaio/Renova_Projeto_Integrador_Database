@@ -19,7 +19,7 @@ public class AgendaView extends JFrame {
         texto.setBounds(20, 20, 100, 20);
 
         caixaTexto = new JTextField("Informe o tamanho do penis do Murilo");
-        caixaTexto.setBounds(130, 20, 100, 20);
+        caixaTexto.setBounds(130, 20, 250, 20);
 
         botaoInsert = new JButton("Enviar");
         botaoInsert.setBounds(20, 80, 100, 20);
@@ -30,6 +30,11 @@ public class AgendaView extends JFrame {
         getContentPane().add(botaoInsert);
 
 
+    }
+
+    public static void main(String[] args) {
+        AgendaView tela = new AgendaView();
+        tela.setVisible(true);
     }
 
 }
