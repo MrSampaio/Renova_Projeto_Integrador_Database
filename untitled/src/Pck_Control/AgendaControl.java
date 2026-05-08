@@ -7,6 +7,7 @@ public class AgendaControl {
     public void insertAgenda(String texto){
         agendaModel.setText(texto);
         System.out.println("Chegou a parada: " + agendaModel.getText());
+
     }
 }
 
