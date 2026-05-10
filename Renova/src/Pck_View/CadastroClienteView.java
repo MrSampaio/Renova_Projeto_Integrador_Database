@@ -10,6 +10,11 @@ public class CadastroClienteView extends JFrame {
     JTextField nomeInput = new JTextField();
     JTextField telefoneInput = new JTextField();
 
+    JButton cadastrarBtn = new JButton("Cadastrar");
+    JButton voltarBtn = new JButton("Voltar");
+
+
+
     public CadastroClienteView(){
         setTitle("Cadastro");
         setBounds(100, 100, 800, 700);
@@ -95,7 +100,31 @@ public class CadastroClienteView extends JFrame {
         telefoneInput.setPreferredSize(new Dimension(300, 35));
         getContentPane().add(telefoneInput, gbc);
 
+        // cadastrar btn
+        cadastrarBtn.setPreferredSize(new Dimension(250, 40));
+        gbc.gridy = 6;
+        gbc.gridwidth = 2;
+        getContentPane().add(cadastrarBtn, gbc);
 
+        // voltarBtn
+        voltarBtn.setPreferredSize(new Dimension(250, 40));
+        gbc.gridy = 7;
+        gbc.gridwidth = 2;
+        getContentPane().add(voltarBtn, gbc);
+
+        eventos();
+    }
+
+    public void eventos(){
+        cadastrarBtn.addActionListener(e ->{
+            System.out.println("Clique no botao de cadastro.");
+        });
+
+        voltarBtn.addActionListener(e ->{
+            new LoginCliente().setVisible(true);
+
+            dispose();
+        });
     }
 
 }
