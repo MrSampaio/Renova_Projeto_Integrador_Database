@@ -1,6 +1,5 @@
 package Pck_View;
 
-import Pck_Model.UsuarioModel;
 import Pck_Control.LoginUsuarioControl;
 
 import javax.swing.*;
@@ -34,7 +33,7 @@ public class LoginCliente extends JFrame{
         // aplica margem
         gbc.insets = new Insets(10, 0, 10, 0);
 
-        // titulo paginaa
+        // titulo pagina
         JLabel tituloPagina = new JLabel("Faça seu login");
         gbc.gridx = 0; // começa na coluna 0
         gbc.gridy = 0; // linha 0
@@ -50,7 +49,6 @@ public class LoginCliente extends JFrame{
         getContentPane().add(labelEmailCliente, gbc);
 
         // input email
-
         gbc.gridx = 1; // coluna 1 (direita)
         gbc.gridy = 1; // linha 1
         emailCliente.setPreferredSize(new Dimension(300, 35));
@@ -102,6 +100,8 @@ public class LoginCliente extends JFrame{
 
             try{
                 usuarioControl.LoginUsuarioControl(email, senha);
+
+                dispose();
             } catch (Exception erro){
                 JOptionPane.showMessageDialog(null,
                         erro.getMessage(),
@@ -111,7 +111,10 @@ public class LoginCliente extends JFrame{
 
         });
         cadastrarBtn.addActionListener(e -> {
-            new CadastroCliente().setVisible(true);
+            new CadastroClienteView().setVisible(true);
+
+            dispose();
+
 
         });
 
