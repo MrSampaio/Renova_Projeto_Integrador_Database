@@ -1,10 +1,8 @@
 package Pck_View;
 
-import javax.swing.JFrame;
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
-import javax.swing.JButton;
-import javax.swing.JLabel;
+import Pck_Model.UsuarioModel;
+
+import javax.swing.*;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -15,6 +13,9 @@ public class LoginCliente extends JFrame{
     JButton entrarBtn = new JButton("Entrar");
     JButton cadastrarBtn = new JButton("Cadastre-se aqui");
     JButton voltarBtn = new JButton("Voltar");
+
+    JTextField emailCliente = new JTextField();
+    JPasswordField senhaCliente = new JPasswordField();
 
     public LoginCliente(){
         setTitle("Login Cliente");
@@ -48,7 +49,7 @@ public class LoginCliente extends JFrame{
         getContentPane().add(labelEmailCliente, gbc);
 
         // input email
-        JTextField emailCliente = new JTextField();
+
         gbc.gridx = 1; // coluna 1 (direita)
         gbc.gridy = 1; // linha 1
         emailCliente.setPreferredSize(new Dimension(300, 35));
@@ -61,7 +62,7 @@ public class LoginCliente extends JFrame{
         getContentPane().add(labelSenhaCliente, gbc);
 
         // input senha
-        JPasswordField senhaCliente = new JPasswordField();
+
         gbc.gridx = 1;
         gbc.gridy = 2;
         senhaCliente.setPreferredSize(new Dimension(300, 35));
@@ -92,16 +93,35 @@ public class LoginCliente extends JFrame{
     }
 
     private void eventos(){
+
+        entrarBtn.addActionListener(e ->{
+            UsuarioModel usuario = new UsuarioModel();
+
+            String email = emailCliente.getText();
+            String senha = senhaCliente.getText();
+
+
+            try{
+                usuario.setEmail(email);
+                usuario.setSenha(senha);
+            } catch (IllegalArgumentException erro){
+                JOptionPane.showMessageDialog(null,
+                        erro.getMessage(),
+                        "Erro de Validação",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+
+        });
+        cadastrarBtn.addActionListener(e -> {
+            new CadastroCliente().setVisible(true);
+
+        });
+
         voltarBtn.addActionListener(e ->{
             new IndexView().setVisible(true);
 
             // fecha a pagina atual
             dispose();
-        });
-
-        cadastrarBtn.addActionListener(e -> {
-            new CadastroCliente().setVisible(true);
-
         });
 
     }

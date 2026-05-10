@@ -20,7 +20,7 @@ public class ConexaoMySql {
     public ConexaoMySql(){
         this.sDriver = "com.mysql.cj.jdbc.Driver";
         this.sServidor = "localhost";
-        this.connStr = "jdbc:mysql://localhost:3306/bd_agenda_mvc";
+        this.connStr = "jdbc:mysql://localhost:3306/renova";
     }
 
     public static Connection getConn(String login, String senha) throws SQLException {
@@ -51,9 +51,5 @@ public class ConexaoMySql {
             e.printStackTrace();
         }
     }
-
-
-
-
 }
 
