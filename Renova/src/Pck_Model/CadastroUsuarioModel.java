@@ -66,7 +66,7 @@ public class CadastroUsuarioModel {
     }
 
     public void setTipoUsuario(String tipoUsuario) {
-        if (!tipoUsuario.toUpperCase().equals("CLIENTE") || !tipoUsuario.toUpperCase().equals("FUNCIONARIO")){
+        if (!tipoUsuario.toUpperCase().equals("CLIENTE") && !tipoUsuario.toUpperCase().equals("FUNCIONARIO")){
             throw new IllegalArgumentException("Erro ao definir o tipo de usuário.");
         } else{
             this.tipoUsuario = tipoUsuario;

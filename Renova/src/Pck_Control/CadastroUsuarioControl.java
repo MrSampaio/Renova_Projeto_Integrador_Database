@@ -5,7 +5,7 @@ import Pck_Persistencia.CadastroUsuarioPersistencia;
 
 
 public class CadastroUsuarioControl {
-    public void CadastroClienteControl(String email, String senha, String telefone, String nome, String tipoUsuario) throws Exception{
+    public void CadastroUsuarioControl(String email, String senha, String telefone, String nome, String tipoUsuario) throws Exception{
         CadastroUsuarioModel cadastroUsuario = new CadastroUsuarioModel();
 
         cadastroUsuario.setEmail(email);

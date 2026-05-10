@@ -2,11 +2,14 @@ package Pck_View;
 import javax.swing.*;
 import java.awt.*;
 
+import Pck_Control.CadastroUsuarioControl;
+import Pck_Model.CadastroUsuarioModel;
+
 public class CadastroClienteView extends JFrame {
 
     JTextField emailInput = new JTextField();
-    JTextField passwordInput = new JTextField();
-    JTextField confirmPasswordInput = new JTextField();
+    JPasswordField passwordInput = new JPasswordField();
+    JPasswordField confirmPasswordInput = new JPasswordField();
     JTextField nomeInput = new JTextField();
     JTextField telefoneInput = new JTextField();
 
@@ -114,8 +117,30 @@ public class CadastroClienteView extends JFrame {
     }
 
     public void eventos(){
-        cadastrarBtn.addActionListener(e ->{
-            System.out.println("Clique no botao de cadastro.");
+        cadastrarBtn.addActionListener(_ ->{
+
+            CadastroUsuarioControl cadastroUsuario = new CadastroUsuarioControl();
+
+            String nome = nomeInput.getText();
+            String email = emailInput.getText();
+            String senha = (new String (passwordInput.getPassword()));
+            String confirmacaoSenha = (new String(confirmPasswordInput.getPassword()));
+            String telefone = telefoneInput.getText();
+            String tipoUsuario = "CLIENTE";
+
+            if(!confirmacaoSenha.equals(senha)){
+                JOptionPane.showMessageDialog(null, "As senhas não coincidem!!");
+            } else{
+                try{
+                    cadastroUsuario.CadastroUsuarioControl(email, senha, telefone, nome, tipoUsuario);
+                    dispose();
+                } catch (Exception erro){
+                    JOptionPane.showMessageDialog(null,
+                            erro.getMessage(),
+                            "Erro de Cadastro",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            }
         });
 
         voltarBtn.addActionListener(e ->{

@@ -34,13 +34,30 @@ public class CadastroUsuarioPersistencia {
 
             // new SucessoCadastroView().setVisible(true);
 
+            int linhasAfetadas = stmt.executeUpdate();
+
+            if(linhasAfetadas > 0){
+                System.out.println("Novo usuario cadastrado com sucesso.");
+            } else{
+                System.out.println("Erro ao cadastrar usuario.");
+            }
 
         } catch (SQLException e) {
             throw new IllegalArgumentException("Erro ao cadastrar usuario: " + e);
         } catch (Exception e){
             throw new IllegalArgumentException("Erro ao cadastrar usuario: " + e);
-        }
 
+        } finally {
+
+            try {
+                if (stmt != null) stmt.close();
+                if (conn != null) {
+                    new ConexaoMySql().desconectar();
+                }
+            } catch (SQLException e) {
+                throw new IllegalArgumentException("Erro ao fechar conexao com o banco." + e);
+            }
+        }
 
     }
 }

@@ -15,7 +15,7 @@ public class ConexaoMySql {
 
     private static final String URL = "jdbc:mysql://localhost:3306/bd_agenda_mvc";
     public static final String login = "root";
-    public static final String senha = "";
+    public static final String senha = "Root1234";
 
     public ConexaoMySql(){
         this.sDriver = "com.mysql.cj.jdbc.Driver";
