@@ -1,4 +1,4 @@
-package Pck_DAO;
+/* package Pck_DAO;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -57,3 +57,6 @@ public class ConexaoMySql {
 
 
 }
+
+
+ */
