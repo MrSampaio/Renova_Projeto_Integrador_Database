@@ -9,14 +9,14 @@ import java.sql.ResultSet;
 
 public class LoginUsuarioPersistencia{
 
-    Connection conn = null;
-    CallableStatement stmt = null;
-    ResultSet result = null;
-    boolean sucesso = false;
 
 
-    public boolean login(LoginUsuarioModel loginUsuario){
+
+    public LoginUsuarioModel login(LoginUsuarioModel loginUsuario){
         String sql = "{CALL PROC_LOGIN_USUARIO(?, ?)}";
+        Connection conn = null;
+        CallableStatement stmt = null;
+        ResultSet result = null;
 
         try{
             ConexaoMySql conexaoBD = new ConexaoMySql();
@@ -29,11 +29,24 @@ public class LoginUsuarioPersistencia{
             result = stmt.executeQuery();
 
             if(result.next()){
-                System.out.println("Login feito.");
-                return true;
+
+
+                try{
+                    loginUsuario.setIdUsuario(result.getInt("id_usuario"));
+                    loginUsuario.setNome(result.getString("nome"));
+                    loginUsuario.setTipoUsuario(result.getString("tipo_usuario"));
+
+                    System.out.println("Login feito.");
+
+                    return loginUsuario;
+
+                } catch (Exception e) {
+                    throw new RuntimeException("Erro ao atribuir valores ao objeto usuário após login: " + e);
+                }
+
             } else{
                 System.out.println("Erro ao logar.");
-                return false;
+                return null;
             }
 
         } catch (SQLException e) {

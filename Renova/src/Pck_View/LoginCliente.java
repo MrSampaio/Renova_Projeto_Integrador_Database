@@ -1,6 +1,7 @@
 package Pck_View;
 
 import Pck_Control.LoginUsuarioControl;
+import Pck_Model.LoginUsuarioModel;
 
 import javax.swing.*;
 import java.awt.GridBagLayout;
@@ -99,10 +100,10 @@ public class LoginCliente extends JFrame{
             String senha = senhaCliente.getText();
 
             try{
-                boolean sucessoLogin = usuarioControl.realizarLogin(email, senha);
+                LoginUsuarioModel usuarioLogado = usuarioControl.realizarLogin(email, senha);
 
-                if(sucessoLogin){
-                    new ClienteHomeView().setVisible(true);
+                if(usuarioLogado != null){
+                    new ClienteHomeView(usuarioLogado).setVisible(true);
                     dispose();
                 } else{
                     JOptionPane.showMessageDialog(this, "E-mail ou senha incorretos.",

@@ -1,8 +1,47 @@
 package Pck_Model;
 
 public class LoginUsuarioModel {
+    private int idUsuario;
+    private String nome;
     private String email;
     private String senha;
+    private String tipoUsuario;
+
+    public int getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(int idUsuario) {
+        if(idUsuario < 0){
+            throw new IllegalArgumentException("Erro ao manipular id de usuário.");
+        } else{
+            this.idUsuario = idUsuario;
+        }
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        if(nome == null || nome.isEmpty() || nome.length() <= 0){
+            throw new IllegalArgumentException("O campo de 'nome' é obrigatório!");
+        } else{
+            this.nome = nome;
+        }
+    }
+
+    public String getTipoUsuario() {
+        return tipoUsuario;
+    }
+
+    public void setTipoUsuario(String tipoUsuario){
+        if (!tipoUsuario.toUpperCase().equals("CLIENTE") && !tipoUsuario.toUpperCase().equals("FUNCIONARIO")){
+            throw new IllegalArgumentException("Erro ao definir o tipo de usuário.");
+        } else{
+            this.tipoUsuario = tipoUsuario;
+        }
+    }
 
     public String getEmail() {
         return email;
@@ -21,9 +60,7 @@ public class LoginUsuarioModel {
         if (email != null && email.matches(regexEmail)) {
             this.email = email;
         } else {
-
             throw new IllegalArgumentException("E-mail com formato inválido! Use o padrão nome@email.com.");
-
         }
     }
 
