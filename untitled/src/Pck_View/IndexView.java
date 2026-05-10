@@ -9,6 +9,10 @@ import java.awt.Insets;
 import java.awt.Dimension;
 
 public class IndexView extends JFrame{
+
+    JButton funcionarioBtn = new JButton("Sou funcionário");
+    JButton clienteBtn = new JButton("Sou cliente");
+
     public IndexView(){
         setTitle("Bem-vindo(a) ao Renova!");
         setBounds(100, 100, 800, 700);
@@ -29,15 +33,25 @@ public class IndexView extends JFrame{
         gbc.gridy = 0; // adiciona na primeira linha
         getContentPane().add(tituloPagina, gbc);
 
-        JButton funcionario = new JButton("Sou funcionário");
-        funcionario.setPreferredSize(new Dimension(400, 100));
+        funcionarioBtn.setPreferredSize(new Dimension(400, 100));
         gbc.gridy = 1; // adiciona na segunda linha
-        getContentPane().add(funcionario, gbc);
+        getContentPane().add(funcionarioBtn, gbc);
 
-        JButton cliente = new JButton("Sou cliente");
-        cliente.setPreferredSize(new Dimension(400, 100));
+        clienteBtn.setPreferredSize(new Dimension(400, 100));
         gbc.gridy = 2; // adiciona na terceira linha
-        getContentPane().add(cliente, gbc);
+        getContentPane().add(clienteBtn, gbc);
 
+        //btnCliente.addActionListener(e -> new TelaCliente().setVisible(true));
+
+        eventos();
+
+    }
+
+    private void eventos(){
+        funcionarioBtn.addActionListener(e -> {
+            new LoginFuncionario().setVisible(true);
+
+            dispose();
+        });
     }
 }
