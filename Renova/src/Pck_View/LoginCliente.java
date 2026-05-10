@@ -1,6 +1,7 @@
 package Pck_View;
 
 import Pck_Model.UsuarioModel;
+import Pck_Control.LoginUsuarioControl;
 
 import javax.swing.*;
 import java.awt.GridBagLayout;
@@ -62,7 +63,6 @@ public class LoginCliente extends JFrame{
         getContentPane().add(labelSenhaCliente, gbc);
 
         // input senha
-
         gbc.gridx = 1;
         gbc.gridy = 2;
         senhaCliente.setPreferredSize(new Dimension(300, 35));
@@ -95,16 +95,14 @@ public class LoginCliente extends JFrame{
     private void eventos(){
 
         entrarBtn.addActionListener(e ->{
-            UsuarioModel usuario = new UsuarioModel();
+            LoginUsuarioControl usuarioControl = new LoginUsuarioControl();
 
             String email = emailCliente.getText();
             String senha = senhaCliente.getText();
 
-
             try{
-                usuario.setEmail(email);
-                usuario.setSenha(senha);
-            } catch (IllegalArgumentException erro){
+                usuarioControl.LoginUsuarioControl(email, senha);
+            } catch (Exception erro){
                 JOptionPane.showMessageDialog(null,
                         erro.getMessage(),
                         "Erro de Validação",
