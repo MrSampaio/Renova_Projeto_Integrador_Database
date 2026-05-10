@@ -3,7 +3,7 @@ import javax.swing.JFrame;
 
 public class LoginFuncionario extends JFrame{
     public LoginFuncionario(){
-        setTitle("Faça seu login");
+        setTitle("Login funcionario");
         setBounds(100, 100, 800, 700);
 
         System.out.println("Login funcionario entrou mano");

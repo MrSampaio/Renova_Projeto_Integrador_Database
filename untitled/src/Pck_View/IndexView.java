@@ -29,20 +29,22 @@ public class IndexView extends JFrame{
         // aplica margem
         gbc.insets = new Insets(10, 0, 10, 0);
 
+        // titulo da pagina
         JLabel tituloPagina = new JLabel("Como deseja prosseguir?");
         gbc.gridy = 0; // adiciona na primeira linha
         getContentPane().add(tituloPagina, gbc);
 
+        // botao de funcionario
         funcionarioBtn.setPreferredSize(new Dimension(400, 100));
         gbc.gridy = 1; // adiciona na segunda linha
         getContentPane().add(funcionarioBtn, gbc);
 
+        // botoa de cliente
         clienteBtn.setPreferredSize(new Dimension(400, 100));
         gbc.gridy = 2; // adiciona na terceira linha
         getContentPane().add(clienteBtn, gbc);
 
-        //btnCliente.addActionListener(e -> new TelaCliente().setVisible(true));
-
+        // chamada da funcao de eventos que controla os cliques nos botoes
         eventos();
 
     }
@@ -51,6 +53,14 @@ public class IndexView extends JFrame{
         funcionarioBtn.addActionListener(e -> {
             new LoginFuncionario().setVisible(true);
 
+            // fecha essa pagina e abre a nova
+            dispose();
+        });
+
+        clienteBtn.addActionListener(e -> {
+            new LoginCliente().setVisible(true);
+
+            // fecha essa pagina e abre a nova
             dispose();
         });
     }
