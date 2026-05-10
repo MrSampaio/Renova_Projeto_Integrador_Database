@@ -1,15 +1,15 @@
-/* package Pck_DAO;
+package Pck_DAO;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConexaoMySql {
-    private String sDriver;
+    private static String sDriver;
     private String sServidor;
     private String sBase;
 
-    private String connStr;
+    private static String connStr;
 
     static Connection conn;
 
@@ -21,7 +21,6 @@ public class ConexaoMySql {
         this.sDriver = "com.mysql.cj.jdbc.Driver";
         this.sServidor = "localhost";
         this.connStr = "jdbc:mysql://localhost:3306/bd_agenda_mvc";
-
     }
 
     public static Connection getConn(String login, String senha) throws SQLException {
@@ -58,5 +57,3 @@ public class ConexaoMySql {
 
 }
 
-
- */

@@ -23,7 +23,7 @@ public class LoginCliente extends JFrame{
         // o GridBagLayout centraliza os elementos automaticamente
         getContentPane().setLayout(new GridBagLayout());
 
-        // objeto que adicioan as restrições pra controlar a posição dos elementos
+        // objeto que adiciona as restrições pra controlar a posição dos elementos
         GridBagConstraints gbc = new GridBagConstraints();
 
         // faz com que todos os elementos fiquem na mesma coluna, nesse caso a 0

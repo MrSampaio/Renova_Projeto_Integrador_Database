@@ -1,0 +1,71 @@
+CREATE DATABASE IF NOT EXISTS renova;
+
+USE renova;
+
+CREATE TABLE usuario (
+    id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    telefone VARCHAR(20),
+    email VARCHAR(100) UNIQUE,
+    senha VARCHAR(255) NOT NULL,
+    tipo_usuario ENUM('CLIENTE', 'FUNCIONARIO') NOT NULL
+);
+
+CREATE TABLE doador (
+    id_doador INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    telefone VARCHAR(20) NOT NULL
+);
+
+
+CREATE TABLE produto (
+    id_produto INT AUTO_INCREMENT PRIMARY KEY,
+    id_doador INT NOT NULL,
+    descricao VARCHAR(150) NOT NULL,
+    preco DECIMAL(10, 2) NOT NULL,
+    status ENUM('Disponível', 'Reservado', 'Vendido', 'Doado') DEFAULT 'Disponível',
+    FOREIGN KEY (id_doador) REFERENCES DOADOR(id_doador)
+);
+
+-- 4. Criação da tabela de Reserva
+CREATE TABLE reserva (
+    id_reserva INT AUTO_INCREMENT PRIMARY KEY,
+    id_usuario INT NOT NULL,
+    data_reserva DATETIME DEFAULT CURRENT_TIMESTAMP,
+    data_validade DATETIME,
+    FOREIGN KEY (id_usuario) REFERENCES USUARIO(id_usuario)
+);
+
+-- 5. Itens da Reserva
+-- (Criada para atender sua regra: "um pedido pode ter vários itens")
+CREATE TABLE itens_reserva(
+    id_reserva INT NOT NULL,
+    id_produto INT NOT NULL UNIQUE, -- UNIQUE garante que a mesma peça física não seja reservada em dois pedidos diferentes
+    PRIMARY KEY (id_reserva, id_produto),
+    FOREIGN KEY (id_reserva) REFERENCES reserva(id_reserva),
+    FOREIGN KEY (id_produto) REFERENCES produto(id_produto)
+);
+
+/*
+-- 6. Criação da tabela de Venda (Fiel ao diagrama)
+CREATE TABLE venda (
+    id_venda INT AUTO_INCREMENT PRIMARY KEY,
+    id_usuario INT, -- Nullable (opcional) conforme o diagrama
+    data_venda DATETIME DEFAULT CURRENT_TIMESTAMP,
+    metodo_pagamento VARCHAR(50),
+    valor_total DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (id_usuario) REFERENCES USUARIO(id_usuario)
+);
+
+-- 7. Itens da Venda (Fiel ao diagrama)
+-- Permite que uma venda tenha várias peças listadas
+CREATE TABLE itens_venda(
+    id_venda INT NOT NULL,
+    id_peca INT NOT NULL UNIQUE, -- UNIQUE garante que a mesma peça não seja vendida mais de uma vez
+    PRIMARY KEY (id_venda, id_produto),
+    FOREIGN KEY (id_venda) REFERENCES VENDA(id_venda),
+    FOREIGN KEY (id_produto) REFERENCES produto(id_peca)
+);
+
+*/
+
