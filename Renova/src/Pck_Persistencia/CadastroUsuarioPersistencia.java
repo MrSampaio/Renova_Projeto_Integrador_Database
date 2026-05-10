@@ -32,8 +32,6 @@ public class CadastroUsuarioPersistencia {
             stmt.setString(4, cadastroUsuario.getSenha());
             stmt.setString(5, cadastroUsuario.getTipoUsuario());
 
-            // new SucessoCadastroView().setVisible(true);
-
             int linhasAfetadas = stmt.executeUpdate();
 
             if(linhasAfetadas > 0){
@@ -43,19 +41,18 @@ public class CadastroUsuarioPersistencia {
             }
 
         } catch (SQLException e) {
-            throw new IllegalArgumentException("Erro ao cadastrar usuario: " + e);
-        } catch (Exception e){
-            throw new IllegalArgumentException("Erro ao cadastrar usuario: " + e);
+            throw new RuntimeException("Erro no banco de dados ao cadastrar usuário: " + e.getMessage());
 
-        } finally {
-
+        }finally {
             try {
-                if (stmt != null) stmt.close();
-                if (conn != null) {
+                if (stmt != null){
+                    stmt.close();
+                }
+                if (conn != null){
                     new ConexaoMySql().desconectar();
                 }
             } catch (SQLException e) {
-                throw new IllegalArgumentException("Erro ao fechar conexao com o banco." + e);
+                System.out.println("Falha ao fechar a conexão com o banco - " + e.getMessage());
             }
         }
 

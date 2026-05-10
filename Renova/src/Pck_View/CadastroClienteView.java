@@ -5,6 +5,7 @@ import java.awt.*;
 import Pck_Control.CadastroUsuarioControl;
 import Pck_Model.CadastroUsuarioModel;
 
+
 public class CadastroClienteView extends JFrame {
 
     JTextField emailInput = new JTextField();
@@ -133,6 +134,8 @@ public class CadastroClienteView extends JFrame {
             } else{
                 try{
                     cadastroUsuario.CadastroUsuarioControl(email, senha, telefone, nome, tipoUsuario);
+                    JOptionPane.showMessageDialog(null, nome + ", seu cadastro foi concluído! Realize o login com email e senha para acessar sua conta.");
+                    new LoginCliente().setVisible(true);
                     dispose();
                 } catch (Exception erro){
                     JOptionPane.showMessageDialog(null,

@@ -99,13 +99,21 @@ public class LoginCliente extends JFrame{
             String senha = senhaCliente.getText();
 
             try{
-                usuarioControl.LoginUsuarioControl(email, senha);
-                dispose();
-            } catch (Exception erro){
-                JOptionPane.showMessageDialog(null,
-                        erro.getMessage(),
-                        "Erro de Validação",
-                        JOptionPane.ERROR_MESSAGE);
+                boolean sucessoLogin = usuarioControl.realizarLogin(email, senha);
+
+                if(sucessoLogin){
+                    new ClienteHomeView().setVisible(true);
+                    dispose();
+                } else{
+                    JOptionPane.showMessageDialog(this, "E-mail ou senha incorretos.",
+                            "Erro",
+                            JOptionPane.WARNING_MESSAGE);
+                }
+
+            } catch (IllegalArgumentException erroModel) {
+                JOptionPane.showMessageDialog(this, erroModel.getMessage(), "Aviso", JOptionPane.WARNING_MESSAGE);
+            } catch (RuntimeException erroBanco) {
+                JOptionPane.showMessageDialog(this, "Erro no servidor: " + erroBanco.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             }
 
         });
@@ -113,7 +121,6 @@ public class LoginCliente extends JFrame{
             new CadastroClienteView().setVisible(true);
 
             dispose();
-
 
         });
 

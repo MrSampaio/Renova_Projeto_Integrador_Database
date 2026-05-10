@@ -4,6 +4,14 @@ public class LoginUsuarioModel {
     private String email;
     private String senha;
 
+    public String getEmail() {
+        return email;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
     public void setEmail(String email) {
 
         // regex que define como um e-mail válido deve parecer
