@@ -1,7 +1,6 @@
 package Pck_Model;
-import javax.swing.JOptionPane;
 
-public class UsuarioModel {
+public class LoginUsuarioModel {
     private String email;
     private String senha;
 
@@ -22,9 +21,7 @@ public class UsuarioModel {
 
     public void setSenha(String senha) {
         if(senha.isEmpty() || senha == null || senha.length() < 5){
-
             throw new IllegalArgumentException("Senha Inválida! Informe uma senha com pelo menos 5 dígitos.");
-
         } else{
             this.senha = senha;
         }

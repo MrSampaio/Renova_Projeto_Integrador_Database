@@ -1,19 +1,19 @@
 package Pck_Control;
 
-import Pck_Model.UsuarioModel;
-import Pck_Persistencia.LoginUsuario;
+import Pck_Model.LoginUsuarioModel;
+import Pck_Persistencia.LoginUsuarioPersistencia;
 
 public class LoginUsuarioControl {
 
 
     public void LoginUsuarioControl(String email, String senha) throws Exception{
 
-        UsuarioModel usuario = new UsuarioModel();
+        LoginUsuarioModel usuario = new LoginUsuarioModel();
 
         usuario.setEmail(email);
         usuario.setSenha(senha);
 
-        LoginUsuario loginUsuario = new LoginUsuario();
+        LoginUsuarioPersistencia loginUsuarioPersistencia = new LoginUsuarioPersistencia();
 
     }
 

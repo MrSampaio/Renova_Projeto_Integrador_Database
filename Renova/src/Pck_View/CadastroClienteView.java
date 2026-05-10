@@ -13,8 +13,6 @@ public class CadastroClienteView extends JFrame {
     JButton cadastrarBtn = new JButton("Cadastrar");
     JButton voltarBtn = new JButton("Voltar");
 
-
-
     public CadastroClienteView(){
         setTitle("Cadastro");
         setBounds(100, 100, 800, 700);

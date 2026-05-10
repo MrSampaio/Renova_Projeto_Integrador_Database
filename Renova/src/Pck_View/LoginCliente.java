@@ -92,7 +92,7 @@ public class LoginCliente extends JFrame{
 
     private void eventos(){
 
-        entrarBtn.addActionListener(e ->{
+        entrarBtn.addActionListener( _ ->{
             LoginUsuarioControl usuarioControl = new LoginUsuarioControl();
 
             String email = emailCliente.getText();
@@ -100,7 +100,6 @@ public class LoginCliente extends JFrame{
 
             try{
                 usuarioControl.LoginUsuarioControl(email, senha);
-
                 dispose();
             } catch (Exception erro){
                 JOptionPane.showMessageDialog(null,
@@ -110,7 +109,7 @@ public class LoginCliente extends JFrame{
             }
 
         });
-        cadastrarBtn.addActionListener(e -> {
+        cadastrarBtn.addActionListener(_ -> {
             new CadastroClienteView().setVisible(true);
 
             dispose();
@@ -118,7 +117,7 @@ public class LoginCliente extends JFrame{
 
         });
 
-        voltarBtn.addActionListener(e ->{
+        voltarBtn.addActionListener(_ ->{
             new IndexView().setVisible(true);
 
             // fecha a pagina atual
