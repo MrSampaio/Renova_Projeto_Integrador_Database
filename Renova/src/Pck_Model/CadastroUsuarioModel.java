@@ -20,7 +20,7 @@ public class CadastroUsuarioModel {
     }
 
     public String getNome() {
-        return nome;
+        return this.nome;
     }
 
     public String getTipoUsuario() {

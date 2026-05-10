@@ -14,7 +14,6 @@ public class CadastroUsuarioControl {
         cadastroUsuario.setNome(nome);
         cadastroUsuario.setTipoUsuario(tipoUsuario);
 
-
         CadastroUsuarioPersistencia cadastroPersistencia = new CadastroUsuarioPersistencia();
 
         cadastroPersistencia.CadastroUsuario(cadastroUsuario);
