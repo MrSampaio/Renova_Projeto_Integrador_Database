@@ -9,9 +9,6 @@ import java.sql.ResultSet;
 
 public class LoginUsuarioPersistencia{
 
-
-
-
     public LoginUsuarioModel login(LoginUsuarioModel loginUsuario){
         String sql = "{CALL PROC_LOGIN_USUARIO(?, ?)}";
         Connection conn = null;
@@ -29,8 +26,6 @@ public class LoginUsuarioPersistencia{
             result = stmt.executeQuery();
 
             if(result.next()){
-
-
                 try{
                     loginUsuario.setIdUsuario(result.getInt("id_usuario"));
                     loginUsuario.setNome(result.getString("nome"));

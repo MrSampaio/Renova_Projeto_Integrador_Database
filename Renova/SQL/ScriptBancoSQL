@@ -8,24 +8,18 @@ CREATE TABLE usuario (
     telefone VARCHAR(20),
     email VARCHAR(100) UNIQUE,
     senha VARCHAR(255) NOT NULL,
-    tipo_usuario ENUM('CLIENTE', 'FUNCIONARIO') NOT NULL
+    tipo_usuario ENUM('CLIENTE', 'FUNCIONARIO') DEFAULT 'CLIENTE' NOT NULL
 );
-
-CREATE TABLE doador (
-    id_doador INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
-    telefone VARCHAR(20) NOT NULL
-);
-
 
 CREATE TABLE produto (
     id_produto INT AUTO_INCREMENT PRIMARY KEY,
-    id_doador INT NOT NULL,
+    nome_produto VARCHAR(100) NOT NULL,
     descricao VARCHAR(150) NOT NULL,
     preco DECIMAL(10, 2) NOT NULL,
-    status ENUM('Disponível', 'Reservado', 'Vendido', 'Doado') DEFAULT 'Disponível',
-    FOREIGN KEY (id_doador) REFERENCES DOADOR(id_doador)
+    status ENUM('Disponível', 'Reservado', 'Vendido') DEFAULT 'Disponível'
 );
+
+
 
 -- 4. Criação da tabela de Reserva
 CREATE TABLE reserva (
@@ -45,6 +39,50 @@ CREATE TABLE itens_reserva(
     FOREIGN KEY (id_reserva) REFERENCES reserva(id_reserva),
     FOREIGN KEY (id_produto) REFERENCES produto(id_produto)
 );
+
+DELIMITER //
+
+CREATE PROCEDURE PROC_LOGIN_USUARIO(
+    IN p_email VARCHAR(100),
+    IN p_senha VARCHAR(255)
+)
+BEGIN
+    SELECT
+        id_usuario,
+        nome,
+        tipo_usuario
+    FROM
+        usuario
+    WHERE
+        email = p_email
+        AND senha = p_senha;
+END; //
+
+DELIMITER;
+
+DELIMITER //
+
+CREATE PROCEDURE PROC_CADASTRAR_USUARIO(
+    IN p_nome VARCHAR(100),
+    IN p_telefone VARCHAR(20),
+    IN p_email VARCHAR(100),
+    IN p_senha VARCHAR(255),
+    IN p_tipo_usuario VARCHAR(100)
+)
+BEGIN
+    -- Insere os dados na tabela usuario
+    -- O id_usuario é AUTO_INCREMENT, então não precisamos passá-lo
+    INSERT INTO usuario (nome, telefone, email, senha, tipo_usuario)
+    VALUES (p_nome, p_telefone, p_email, p_senha, p_tipo_usuario);
+
+END //
+
+DELIMITER ;
+
+SELECT * FROM renova.usuario;
+
+
+
 
 /*
 -- 6. Criação da tabela de Venda (Fiel ao diagrama)

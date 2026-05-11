@@ -9,7 +9,7 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.Dimension;
 
-public class LoginCliente extends JFrame{
+public class LoginView extends JFrame{
 
     JButton entrarBtn = new JButton("Entrar");
     JButton cadastrarBtn = new JButton("Cadastre-se aqui");
@@ -18,8 +18,8 @@ public class LoginCliente extends JFrame{
     JTextField emailCliente = new JTextField();
     JPasswordField senhaCliente = new JPasswordField();
 
-    public LoginCliente(){
-        setTitle("Login Cliente");
+    public LoginView(){
+        setTitle("Bem-Vindo(a) ao Renova!");
         setBounds(100, 100, 800, 700);
 
         // o GridBagLayout centraliza os elementos automaticamente
@@ -103,7 +103,13 @@ public class LoginCliente extends JFrame{
                 LoginUsuarioModel usuarioLogado = usuarioControl.realizarLogin(email, senha);
 
                 if(usuarioLogado != null){
-                    new ClienteHomeView(usuarioLogado).setVisible(true);
+
+                    if(usuarioLogado.getTipoUsuario().toUpperCase().equals("CLIENTE")){
+                        new ClienteHomeView(usuarioLogado).setVisible(true);
+                    } else{
+                        new FuncionarioHomeView(usuarioLogado).setVisible(true);
+                    }
+
                     dispose();
                 } else{
                     JOptionPane.showMessageDialog(this, "E-mail ou senha incorretos.",

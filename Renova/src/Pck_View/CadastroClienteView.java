@@ -3,8 +3,6 @@ import javax.swing.*;
 import java.awt.*;
 
 import Pck_Control.CadastroUsuarioControl;
-import Pck_Model.CadastroUsuarioModel;
-
 
 public class CadastroClienteView extends JFrame {
 
@@ -18,7 +16,7 @@ public class CadastroClienteView extends JFrame {
     JButton voltarBtn = new JButton("Voltar");
 
     public CadastroClienteView(){
-        setTitle("Cadastro");
+        setTitle("Cadastro Cliente");
         setBounds(100, 100, 800, 700);
 
         // o GridBagLayout centraliza os elementos automaticamente
@@ -34,7 +32,7 @@ public class CadastroClienteView extends JFrame {
         gbc.insets = new Insets(10, 0, 10, 0);
 
         // titulo pagina
-        JLabel tituloPagina = new JLabel("Realize seu cadastro");
+        JLabel tituloPagina = new JLabel("Realize seu cadastro de cliente");
         gbc.gridx = 0; // começa na coluna 0
         gbc.gridy = 0; // linha 0
         gbc.gridwidth = 2; // ocupa 2 colunas para ficar centralizado
@@ -135,7 +133,7 @@ public class CadastroClienteView extends JFrame {
                 try{
                     cadastroUsuario.CadastroUsuarioControl(email, senha, telefone, nome, tipoUsuario);
                     JOptionPane.showMessageDialog(null, nome + ", seu cadastro foi concluído! Realize o login com email e senha para acessar sua conta.");
-                    new LoginCliente().setVisible(true);
+                    new LoginView().setVisible(true);
                     dispose();
                 } catch (Exception erro){
                     JOptionPane.showMessageDialog(null,
@@ -147,7 +145,7 @@ public class CadastroClienteView extends JFrame {
         });
 
         voltarBtn.addActionListener(e ->{
-            new LoginCliente().setVisible(true);
+            new LoginView().setVisible(true);
 
             dispose();
         });

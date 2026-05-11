@@ -51,14 +51,14 @@ public class IndexView extends JFrame{
 
     private void eventos(){
         funcionarioBtn.addActionListener(e -> {
-            new LoginFuncionario().setVisible(true);
+
 
             // fecha essa pagina e abre a nova
             dispose();
         });
 
         clienteBtn.addActionListener(e -> {
-            new LoginCliente().setVisible(true);
+            new LoginView().setVisible(true);
 
             // fecha essa pagina e abre a nova
             dispose();

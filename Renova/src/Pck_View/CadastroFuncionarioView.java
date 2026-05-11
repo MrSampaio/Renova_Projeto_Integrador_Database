@@ -6,7 +6,7 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.Dimension;
 
-public class CadastroFuncionario extends JFrame{
+public class CadastroFuncionarioView extends JFrame{
 
     JTextField emailInput = new JTextField();
     JTextField passwordInput = new JTextField();
@@ -15,7 +15,7 @@ public class CadastroFuncionario extends JFrame{
     JTextField telefoneInput = new JTextField();
 
 
-    public CadastroFuncionario(){
+    public CadastroFuncionarioView(){
         setTitle("Cadastro");
         setBounds(100, 100, 800, 700);
 
