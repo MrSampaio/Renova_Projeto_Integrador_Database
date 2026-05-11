@@ -9,8 +9,10 @@ public class CadastrarProdutoView extends JFrame{
     JTextField precoInput = new JTextField();
 
     String[] opcoesStatus = {"Disponível", "Reservado", "Vendido"};
-
     JComboBox<String> statusInput = new JComboBox<>(opcoesStatus);
+
+    JButton cadastrarProdutoBtn = new JButton("Adicionar produto");
+    JButton voltarBtn = new JButton("Voltar");
 
     public CadastrarProdutoView(){
         setTitle("Cadastrar produto");
@@ -70,7 +72,6 @@ public class CadastrarProdutoView extends JFrame{
         precoInput.setPreferredSize(new Dimension(300, 35));
         getContentPane().add(precoInput, gbc);
 
-
         JLabel labelStatus = new JLabel("Status do produto: ");
         gbc.gridx = 0; // coluna 0 (esquerda)
         gbc.gridy = 4; // linha 4 (abaixo do preço)
@@ -80,10 +81,29 @@ public class CadastrarProdutoView extends JFrame{
         gbc.gridy = 4; // linha 4
         statusInput.setPreferredSize(new Dimension(300, 35));
         statusInput.setSelectedIndex(0);
-
         getContentPane().add(statusInput, gbc);
 
+        cadastrarProdutoBtn.setPreferredSize(new Dimension(300, 40));
+        gbc.gridy = 5;
+        gbc.gridwidth = 2;
+        getContentPane().add(cadastrarProdutoBtn, gbc);
 
+        voltarBtn.setPreferredSize(new Dimension(300, 40));
+        gbc.gridy = 6;
+        gbc.gridwidth = 2;
+        getContentPane().add(voltarBtn, gbc);
+
+        eventos();
+    }
+
+    public void eventos(){
+        cadastrarProdutoBtn.addActionListener( _ ->{
+            System.out.println("Produto sendo cadastrado");
+        });
+
+        voltarBtn.addActionListener( _ ->{
+           dispose();
+        });
     }
 
     static void main(String[] args) {

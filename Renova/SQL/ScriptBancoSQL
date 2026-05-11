@@ -19,8 +19,6 @@ CREATE TABLE produto (
     status ENUM('Disponível', 'Reservado', 'Vendido') DEFAULT 'Disponível'
 );
 
-
-
 -- 4. Criação da tabela de Reserva
 CREATE TABLE reserva (
     id_reserva INT AUTO_INCREMENT PRIMARY KEY,
