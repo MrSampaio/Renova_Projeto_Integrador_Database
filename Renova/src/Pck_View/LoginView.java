@@ -124,6 +124,7 @@ public class LoginView extends JFrame{
             }
 
         });
+
         cadastrarBtn.addActionListener(_ -> {
             new CadastroClienteView().setVisible(true);
 
