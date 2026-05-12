@@ -137,7 +137,7 @@ public class CadastroClienteView extends JFrame {
                     dispose();
                 } catch (Exception erro){
                     JOptionPane.showMessageDialog(null,
-                            erro.getMessage(),
+                            "Erro ao cadastrar usuário: " + erro.getMessage(),
                             "Erro de Cadastro",
                             JOptionPane.ERROR_MESSAGE);
                 }

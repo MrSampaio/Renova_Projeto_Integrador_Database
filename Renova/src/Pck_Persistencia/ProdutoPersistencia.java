@@ -1,0 +1,56 @@
+package Pck_Persistencia;
+
+import Pck_Model.ProdutoModel;
+import Pck_DAO.ConexaoMySql;
+import java.sql.Connection;
+import java.sql.CallableStatement;
+import java.sql.SQLException;
+
+public class ProdutoPersistencia {
+
+    Connection conn = null;
+    CallableStatement stmt = null;
+    boolean sucesso = false;
+
+    public void cadastrarProduto(ProdutoModel produto){
+
+        String sql = "{CALL PROC_CADASTRAR_PRODUTO(?, ?, ?, ?)}";
+
+        try{
+            ConexaoMySql conexaoBD = new ConexaoMySql();
+
+            conn = ConexaoMySql.getConn(ConexaoMySql.login, ConexaoMySql.senha);
+
+            stmt = conn.prepareCall(sql);
+
+            stmt.setString(1, produto.getNomeProduto());
+            stmt.setString(2, produto.getDescricao());
+            stmt.setDouble(3, produto.getPreco());
+            stmt.setString(4, produto.getStatus());
+
+            int linhasAfetadas = stmt.executeUpdate();
+
+            if(linhasAfetadas > 0){
+                System.out.println("O produto " + "'" + produto.getNomeProduto() + "' foi adicionado com sucesso.");
+            } else{
+                System.out.println("Erro ao cadastrar produto.");
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro no banco de dados ao cadastrar produto: " + e.getMessage());
+
+        }finally {
+            try {
+                if (stmt != null){
+                    stmt.close();
+                }
+                if (conn != null){
+                    new ConexaoMySql().desconectar();
+                }
+            } catch (SQLException e) {
+                System.out.println("Falha ao fechar a conexão com o banco - " + e.getMessage());
+            }
+        }
+
+    }
+}

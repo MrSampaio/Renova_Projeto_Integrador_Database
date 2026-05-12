@@ -3,7 +3,7 @@ package Pck_Model;
 public class ProdutoModel {
     private String nomeProduto;
     private String descricao;
-    private Double preco;
+    private double preco;
     private String status;
 
     public String getNomeProduto() {
@@ -30,15 +30,15 @@ public class ProdutoModel {
         }
     }
 
-    public Double getPreco() {
+    public double getPreco() {
         return preco;
     }
 
-    public void setPreco(Double preco) {
-        if(preco == null || preco <= 0.0){
+    public void setPreco(double preco) {
+        if(preco <= 0.0){
             throw new IllegalArgumentException("Informe um valor válido ao produto.");
         } else{
-            this.descricao = descricao;
+            this.preco = preco;
         }
     }
 

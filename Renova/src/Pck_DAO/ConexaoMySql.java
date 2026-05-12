@@ -13,7 +13,7 @@ public class ConexaoMySql {
 
     static Connection conn;
 
-    private static final String URL = "jdbc:mysql://localhost:3306/bd_agenda_mvc";
+    private static final String URL = "jdbc:mysql://localhost:3306/renova";
     public static final String login = "root";
     public static final String senha = "Root1234";
 

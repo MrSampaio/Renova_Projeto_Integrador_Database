@@ -1,4 +1,20 @@
 package Pck_Control;
+import Pck_Model.ProdutoModel;
+import Pck_Persistencia.ProdutoPersistencia;
 
 public class CadastrarProdutoControl {
+    public void CadastrarProduto(String nomeProduto, String descricao, double preco, String status){
+
+        ProdutoModel produto = new ProdutoModel();
+
+        produto.setNomeProduto(nomeProduto);
+        produto.setDescricao(descricao);
+        produto.setPreco(preco);
+        produto.setStatus(status);
+
+        ProdutoPersistencia persistencia = new ProdutoPersistencia();
+
+        persistencia.cadastrarProduto(produto);
+
+    }
 }

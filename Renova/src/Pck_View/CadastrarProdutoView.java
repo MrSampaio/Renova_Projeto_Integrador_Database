@@ -2,6 +2,9 @@ package Pck_View;
 import javax.swing.*;
 import java.awt.*;
 
+import Pck_Control.CadastrarProdutoControl;
+
+
 public class CadastrarProdutoView extends JFrame{
 
     JTextField nomeProdutoInput = new JTextField();
@@ -98,7 +101,46 @@ public class CadastrarProdutoView extends JFrame{
 
     public void eventos(){
         cadastrarProdutoBtn.addActionListener( _ ->{
-            System.out.println("Produto sendo cadastrado");
+            String nomeProduto = nomeProdutoInput.getText();
+            String descricao = descricaoInput.getText();
+            String status = (String) statusInput.getSelectedItem();
+
+            String precoDigitado = precoInput.getText();
+
+            // troca as virgulas por ponto, para seguir o padrao de double
+            precoDigitado = precoDigitado.replace(",", ".");
+
+            double precoFinal = 0.0;
+            try {
+                // converte a String para Double
+                precoFinal = Double.parseDouble(precoDigitado);
+
+            } catch (NumberFormatException erro) {
+                JOptionPane.showMessageDialog(this, "Digite um valor numérico válido para o preço.",
+                        "Erro",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+
+            CadastrarProdutoControl produto = new CadastrarProdutoControl();
+
+            try{
+                produto.CadastrarProduto(nomeProduto, descricao, precoFinal, status);
+                JOptionPane.showMessageDialog(null, "O produto " + "'" + nomeProduto + "' foi adicionado com sucesso.");
+
+                nomeProdutoInput.setText("");
+                descricaoInput.setText("");
+                precoInput.setText("");
+                statusInput.setSelectedIndex(0);
+
+
+            } catch (Exception erro){
+                JOptionPane.showMessageDialog(null,
+                        "Erro ao cadastrar produto: " + erro.getMessage(),
+                        "Erro de Cadastro",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+
+
         });
 
         voltarBtn.addActionListener( _ ->{
