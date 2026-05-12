@@ -2,7 +2,9 @@ package Pck_Control;
 import Pck_Model.ProdutoModel;
 import Pck_Persistencia.ProdutoPersistencia;
 
-public class CadastrarProdutoControl {
+import java.util.ArrayList;
+
+public class ProdutoControl {
     public void CadastrarProduto(String nomeProduto, String descricao, double preco, String status){
 
         ProdutoModel produto = new ProdutoModel();
@@ -15,6 +17,13 @@ public class CadastrarProdutoControl {
         ProdutoPersistencia persistencia = new ProdutoPersistencia();
 
         persistencia.cadastrarProduto(produto);
+
+    }
+
+
+    public ArrayList<ProdutoModel> listarProdutos() throws Exception{
+
+
 
     }
 }

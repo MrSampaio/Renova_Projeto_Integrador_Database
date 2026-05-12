@@ -2,6 +2,7 @@ package Pck_View;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.util.ArrayList;
 
 public class VisualizarProdutosView extends JFrame{
     public VisualizarProdutosView(){
@@ -24,6 +25,10 @@ public class VisualizarProdutosView extends JFrame{
 
     static void main(String[] args) {
         new VisualizarProdutosView().setVisible(true);
+    }
+
+    public void renderizarTabela(){
+
     }
 
 }

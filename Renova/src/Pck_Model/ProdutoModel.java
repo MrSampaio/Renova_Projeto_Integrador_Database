@@ -1,10 +1,24 @@
 package Pck_Model;
 
 public class ProdutoModel {
+    private int idProduto;
     private String nomeProduto;
     private String descricao;
     private double preco;
     private String status;
+
+
+    public int getIdProduto() {
+        return idProduto;
+    }
+
+    public void setIdProduto(int idProduto) {
+        if(idProduto <= 0){
+            throw new IllegalArgumentException("Erro ao adicionar id do produto.");
+        } else{
+            this.idProduto = idProduto;
+        }
+    }
 
     public String getNomeProduto() {
         return nomeProduto;

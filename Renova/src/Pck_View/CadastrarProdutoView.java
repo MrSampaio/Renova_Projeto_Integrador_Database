@@ -2,7 +2,7 @@ package Pck_View;
 import javax.swing.*;
 import java.awt.*;
 
-import Pck_Control.CadastrarProdutoControl;
+import Pck_Control.ProdutoControl;
 
 
 public class CadastrarProdutoView extends JFrame{
@@ -121,7 +121,7 @@ public class CadastrarProdutoView extends JFrame{
                         JOptionPane.ERROR_MESSAGE);
             }
 
-            CadastrarProdutoControl produto = new CadastrarProdutoControl();
+            ProdutoControl produto = new ProdutoControl();
 
             try{
                 produto.CadastrarProduto(nomeProduto, descricao, precoFinal, status);
