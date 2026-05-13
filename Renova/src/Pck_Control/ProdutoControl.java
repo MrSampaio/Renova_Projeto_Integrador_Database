@@ -20,10 +20,12 @@ public class ProdutoControl {
 
     }
 
+    public ArrayList<ProdutoModel> listarProdutos() throws Exception {
 
-    public ArrayList<ProdutoModel> listarProdutos() throws Exception{
+        ProdutoPersistencia persistencia = new ProdutoPersistencia();
 
-
-
+        return persistencia.listarProduto();
     }
+
+
 }

@@ -12,7 +12,6 @@ public class ProdutoPersistencia {
 
     Connection conn = null;
     CallableStatement stmt = null;
-    boolean sucesso = false;
     ResultSet resultSet;
 
     public void cadastrarProduto(ProdutoModel produto){
@@ -83,9 +82,7 @@ public class ProdutoPersistencia {
                 lista.add(produto);
             }
 
-            int linhasAfetadas = stmt.executeUpdate();
-
-            if(linhasAfetadas > 0){
+            if(!lista.isEmpty()){
                 System.out.println("Produtos listados com sucesso.");
             } else{
                 System.out.println("Erro ao listar produtos.");

@@ -53,6 +53,7 @@ public class CadastroUsuarioPersistencia {
                 }
             } catch (SQLException e) {
                 System.out.println("Falha ao fechar a conexão com o banco - " + e.getMessage());
+
             }
         }
 

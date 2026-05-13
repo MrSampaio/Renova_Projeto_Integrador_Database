@@ -77,10 +77,63 @@ END //
 
 DELIMITER ;
 
+DELIMITER //
+
+CREATE PROCEDURE PROC_CADASTRAR_PRODUTO(
+    IN p_nome_produto VARCHAR(100),
+    IN p_descricao VARCHAR(150),
+    IN p_preco DECIMAL(10, 2),
+    IN p_status VARCHAR(20)
+)
+BEGIN
+    INSERT INTO produto(nome_produto, descricao, preco, status)
+    VALUES (p_nome_produto, p_descricao, p_preco, p_status);
+
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE PROC_LISTAR_PRODUTOS()
+BEGIN
+    SELECT
+        id_produto,
+        nome_produto,
+        descricao,
+        preco,
+        status
+    FROM
+        produto;
+END //
+
+DELIMITER ;
+
+
 SELECT * FROM renova.usuario;
+SELECT * FROM renova.produto;
 
-
-
+INSERT INTO produto (nome_produto, descricao, preco, status) VALUES
+('Camisa Social Branca', 'Camisa manga longa 100% algodão', 89.90, 'Disponível'),
+('Calça Jeans Masculina', 'Calça jeans azul tamanho 40', 120.50, 'Disponível'),
+('Tênis de Corrida', 'Tênis esportivo preto tamanho 42', 199.99, 'Vendido'),
+('Vestido Floral', 'Vestido de verão tamanho M', 75.00, 'Reservado'),
+('Jaqueta de Couro', 'Jaqueta de couro sintético preta', 250.00, 'Disponível'),
+('Camiseta Básica Preta', 'Camiseta de algodão gola redonda', 35.90, 'Disponível'),
+('Saia Plissada', 'Saia midi plissada rosa', 65.00, 'Vendido'),
+('Blusa de Frio', 'Blusa de lã tricotada vermelha', 110.00, 'Reservado'),
+('Shorts Jeans', 'Shorts jeans feminino tamanho 38', 55.00, 'Disponível'),
+('Cinto de Couro', 'Cinto masculino marrom com fivela prata', 45.00, 'Disponível'),
+('Bolsa Transversal', 'Bolsa pequena preta com alça de corrente', 90.00, 'Vendido'),
+('Óculos de Sol', 'Óculos estilo aviador lente escura', 130.00, 'Disponível'),
+('Bota de Inverno', 'Bota feminina cano curto preta', 180.00, 'Disponível'),
+('Camisa Polo Azul', 'Camisa polo masculina tamanho G', 70.00, 'Reservado'),
+('Calça Moletom', 'Calça de moletom cinza unissex', 85.50, 'Disponível'),
+('Chapéu de Praia', 'Chapéu de palha aba larga', 40.00, 'Vendido'),
+('Kit de Meias', 'Kit com 3 pares de meias esportivas brancas', 25.00, 'Disponível'),
+('Relógio Analógico', 'Relógio de pulso prateado resistente à água', 150.00, 'Reservado'),
+('Cachecol Xadrez', 'Cachecol de lã macia para o inverno', 45.90, 'Disponível'),
+('Mochila Escolar', 'Mochila preta com vários compartimentos', 110.00, 'Disponível');
 
 /*
 -- 6. Criação da tabela de Venda (Fiel ao diagrama)
