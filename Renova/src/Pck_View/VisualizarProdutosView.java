@@ -25,6 +25,8 @@ public class VisualizarProdutosView extends JFrame{
 
     JButton btnRecarregar = new JButton("Limpar Filtros / Recarregar Tudo");
 
+    JButton btnVoltar = new JButton("Voltar");
+
     static void main(String[] args) {
 
         LoginUsuarioModel usuarioFake = new LoginUsuarioModel();
@@ -69,7 +71,6 @@ public class VisualizarProdutosView extends JFrame{
         btnBuscaId.setBounds(300, 430, 120, 30);
         getContentPane().add(btnBuscaId);
 
-
         labelBuscaNome.setBounds(20, 480, 140, 30);
         getContentPane().add(labelBuscaNome);
 
@@ -82,9 +83,11 @@ public class VisualizarProdutosView extends JFrame{
         btnRecarregar.setBounds(20, 550, 250, 35);
         getContentPane().add(btnRecarregar);
 
+        btnVoltar.setBounds(20, 600, 250, 35);
+        getContentPane().add(btnVoltar);
+
         carregarTabela();
         eventos();
-
     }
 
     // carrega tabela com dados do banco
@@ -134,7 +137,7 @@ public class VisualizarProdutosView extends JFrame{
             try{
                 int idFinal = Integer.parseInt(idDigitado);
 
-                ProdutoModel produtoEncontrado = control.listarProdutosID(idFinal);
+                ProdutoModel produtoEncontrado = control.buscarProdutoID(idFinal);
 
                 if (produtoEncontrado != null) {
 
@@ -183,10 +186,63 @@ public class VisualizarProdutosView extends JFrame{
             }
         });
 
+        btnBuscaNome.addActionListener(e -> {
+            String textoDigitado = inputBuscaNome.getText();
+
+            try {
+                modelo.setRowCount(0); // Limpa a tabela
+                ArrayList<ProdutoModel> lista = control.buscarProdutoNome(textoDigitado);
+
+                for(ProdutoModel p : lista) {
+
+                    // se for FUNCIONARIO, mostra TUDO
+                    if (usuarioLogado.getTipoUsuario().equalsIgnoreCase("FUNCIONARIO")) {
+                        modelo.addRow(new Object[]{
+                                p.getIdProduto(),
+                                p.getNomeProduto(),
+                                p.getDescricao(),
+                                p.getPreco(),
+                                p.getStatus()
+                        });
+                    }
+
+                    // se for CLIENTE, oculta os reservados e vendidos (mostra só os disponíveis)
+                    else if (usuarioLogado.getTipoUsuario().equalsIgnoreCase("CLIENTE")) {
+
+                        if(!p.getStatus().equalsIgnoreCase("Reservado") && !p.getStatus().equalsIgnoreCase("Vendido")) {
+                            modelo.addRow(new Object[]{
+                                    p.getIdProduto(),
+                                    p.getNomeProduto(),
+                                    p.getDescricao(),
+                                    p.getPreco(),
+                                    p.getStatus()
+                            });
+                        }
+                    }
+                }
+
+            } catch(Exception erro){
+                JOptionPane.showMessageDialog(this, erro.getMessage());
+                inputBuscaNome.setText("");
+                carregarTabela();
+            }
+
+        });
+
         btnRecarregar.addActionListener(e ->{
             inputBuscaId.setText("");
             inputBuscaNome.setText("");
             carregarTabela();
+        });
+
+        btnVoltar.addActionListener(e ->{
+            if(usuarioLogado.getTipoUsuario().toUpperCase().equals("CLIENTE")){
+                new ClienteHomeView(usuarioLogado).setVisible(true);
+                dispose();
+            } else{
+                new FuncionarioHomeView(usuarioLogado).setVisible(true);
+                dispose();
+            }
         });
     }
 }

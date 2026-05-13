@@ -3,17 +3,22 @@ package Pck_View;
 import Pck_Control.LoginUsuarioControl;
 import Pck_Model.LoginUsuarioModel;
 
+
 import javax.swing.*;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Color;
+import java.awt.Image;
 
 public class LoginView extends JFrame{
 
     JButton entrarBtn = new JButton("Entrar");
+
     JButton cadastrarBtn = new JButton("Cadastre-se aqui");
-    JButton voltarBtn = new JButton("Voltar");
+    // JButton voltarBtn = new JButton("Voltar");
 
     JTextField emailCliente = new JTextField();
     JPasswordField senhaCliente = new JPasswordField();
@@ -22,6 +27,7 @@ public class LoginView extends JFrame{
         setTitle("Bem-Vindo(a) ao Renova!");
         setBounds(100, 100, 800, 700);
 
+        getContentPane().setBackground(new Color(255, 148, 94));
         // o GridBagLayout centraliza os elementos automaticamente
         getContentPane().setLayout(new GridBagLayout());
 
@@ -36,6 +42,8 @@ public class LoginView extends JFrame{
 
         // titulo pagina
         JLabel tituloPagina = new JLabel("Faça seu login");
+        tituloPagina.setFont(new Font("Segoe UI", Font.BOLD, 25));
+
         gbc.gridx = 0; // começa na coluna 0
         gbc.gridy = 0; // linha 0
         gbc.gridwidth = 2; // ocupa 2 colunas para ficar centralizado
@@ -71,6 +79,11 @@ public class LoginView extends JFrame{
 
         // entrar btn
         entrarBtn.setPreferredSize(new Dimension(250, 40));
+        entrarBtn.setPreferredSize(new Dimension(250, 40));
+        entrarBtn.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        entrarBtn.setBackground(new Color(0, 120, 215)); // Azul padrão
+        entrarBtn.setForeground(Color.BLACK); // Texto branco
+        entrarBtn.setFocusPainted(false);
         gbc.gridy = 3;
         gbc.gridwidth = 2;
         getContentPane().add(entrarBtn, gbc);
@@ -82,10 +95,11 @@ public class LoginView extends JFrame{
         getContentPane().add(cadastrarBtn, gbc);
 
         // voltar btn
-        voltarBtn.setPreferredSize(new Dimension(250, 40));
-        gbc.gridy = 5;
-        gbc.gridwidth = 2;
-        getContentPane().add(voltarBtn, gbc);
+
+        //voltarBtn.setPreferredSize(new Dimension(250, 40));
+        //gbc.gridy = 5;
+        //gbc.gridwidth = 2;
+        //getContentPane().add(voltarBtn, gbc);
 
         eventos();
 
@@ -132,12 +146,13 @@ public class LoginView extends JFrame{
 
         });
 
+        /*
         voltarBtn.addActionListener(_ ->{
             new IndexView().setVisible(true);
 
             // fecha a pagina atual
             dispose();
         });
-
+        */
     }
 }

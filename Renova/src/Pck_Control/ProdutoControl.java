@@ -27,10 +27,16 @@ public class ProdutoControl {
         return persistencia.listarProduto();
     }
 
-    public ProdutoModel listarProdutosID(int pesquisa) throws Exception{
+    public ProdutoModel buscarProdutoID(int pesquisa) throws Exception{
         ProdutoPersistencia persistencia = new ProdutoPersistencia();
 
-        return persistencia.listarProdutosID(pesquisa);
+        return persistencia.buscarProdutosID(pesquisa);
+    }
+
+    public ArrayList<ProdutoModel> buscarProdutoNome(String pesquisa) throws Exception{
+        ProdutoPersistencia persistencia = new ProdutoPersistencia();
+
+        return persistencia.buscarProdutosNome(pesquisa);
     }
 
 

@@ -111,7 +111,7 @@ public class ProdutoPersistencia {
         }
     }
 
-    public ProdutoModel listarProdutosID(int pesquisa) {
+    public ProdutoModel buscarProdutosID(int pesquisa) {
 
         String sql = "{CALL PROC_BUSCAR_PRODUTO_POR_ID(?)}";
 
@@ -163,6 +163,63 @@ public class ProdutoPersistencia {
                 if (conn != null){
                     new ConexaoMySql().desconectar();
                 }
+            } catch (SQLException e) {
+                System.out.println("Falha ao fechar a conexão com o banco - " + e.getMessage());
+            }
+        }
+    }
+
+    public ArrayList<ProdutoModel> buscarProdutosNome(String pesquisa) throws SQLException{
+        String sql = "{CALL PROC_BUSCAR_PRODUTO_POR_NOME(?)}";
+
+        try{
+            ConexaoMySql conexaoBD = new ConexaoMySql();
+
+            conn = ConexaoMySql.getConn(ConexaoMySql.login, ConexaoMySql.senha);
+            stmt = conn.prepareCall(sql);
+
+            ArrayList<ProdutoModel> lista = new ArrayList<>();
+
+            stmt.setString(1, pesquisa);
+            resultSet= stmt.executeQuery();
+
+            while(resultSet.next()){
+
+                ProdutoModel produto = new ProdutoModel();
+
+                produto.setIdProduto(resultSet.getInt("id_produto"));
+                produto.setNomeProduto(resultSet.getString("nome_produto"));
+                produto.setDescricao(resultSet.getString("descricao"));
+                produto.setPreco(resultSet.getDouble("preco"));
+                produto.setStatus(resultSet.getString("status"));
+
+                lista.add(produto);
+            }
+
+            if(!lista.isEmpty()){
+                System.out.println("Produtos buscados por nome listados com sucesso.");
+            } else{
+                System.out.println("Erro ao listar produtos por nome.");
+                throw new RuntimeException("Nenhum produto encontrado.");
+            }
+
+            return lista;
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro no banco de dados ao listar produtos por nome: " + e.getMessage());
+
+        }finally {
+            try {
+                if (stmt != null){
+                    stmt.close();
+                }
+                if (conn != null){
+                    new ConexaoMySql().desconectar();
+                }
+                if(resultSet != null){
+                    resultSet.close();
+                }
+
             } catch (SQLException e) {
                 System.out.println("Falha ao fechar a conexão com o banco - " + e.getMessage());
             }
