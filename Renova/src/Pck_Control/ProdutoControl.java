@@ -27,5 +27,11 @@ public class ProdutoControl {
         return persistencia.listarProduto();
     }
 
+    public ProdutoModel listarProdutosID(int pesquisa) throws Exception{
+        ProdutoPersistencia persistencia = new ProdutoPersistencia();
+
+        return persistencia.listarProdutosID(pesquisa);
+    }
+
 
 }

@@ -110,4 +110,62 @@ public class ProdutoPersistencia {
             }
         }
     }
+
+    public ProdutoModel listarProdutosID(int pesquisa) {
+
+        String sql = "{CALL PROC_BUSCAR_PRODUTO_POR_ID(?)}";
+
+        Connection conn = null;
+        CallableStatement stmt = null;
+        ResultSet resultSet = null;
+
+        try {
+            ConexaoMySql conexaoBD = new ConexaoMySql();
+            conn = ConexaoMySql.getConn(ConexaoMySql.login, ConexaoMySql.senha);
+            stmt = conn.prepareCall(sql);
+
+            stmt.setInt(1, pesquisa);
+            resultSet = stmt.executeQuery();
+
+
+            if(resultSet.next()) {
+
+                ProdutoModel produtoEncontrado = new ProdutoModel();
+
+                produtoEncontrado.setIdProduto(resultSet.getInt("id_produto"));
+                produtoEncontrado.setNomeProduto(resultSet.getString("nome_produto"));
+                produtoEncontrado.setDescricao(resultSet.getString("descricao"));
+                produtoEncontrado.setPreco(resultSet.getDouble("preco"));
+                produtoEncontrado.setStatus(resultSet.getString("status"));
+
+                System.out.println("Produto ID " + pesquisa + " encontrado com sucesso.");
+
+                return produtoEncontrado;
+
+            } else {
+
+                System.out.println("Nenhum produto encontrado com o ID: " + pesquisa);
+
+                return null;
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro no banco de dados ao buscar produto por ID: " + e.getMessage());
+
+        } finally {
+            try {
+                if(resultSet != null){
+                    resultSet.close();
+                }
+                if (stmt != null){
+                    stmt.close();
+                }
+                if (conn != null){
+                    new ConexaoMySql().desconectar();
+                }
+            } catch (SQLException e) {
+                System.out.println("Falha ao fechar a conexão com o banco - " + e.getMessage());
+            }
+        }
+    }
 }
