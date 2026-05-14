@@ -6,7 +6,6 @@ import java.awt.*;
 
 public class FuncionarioHomeView extends JFrame {
 
-
     JButton btnProdutos = new JButton("Área de Produtos");
     JButton btnVerificarPedido = new JButton("Verificar Pedidos");
     JButton btnAtenderPedido = new JButton("Atender Pedidos");
@@ -27,7 +26,7 @@ public class FuncionarioHomeView extends JFrame {
 
         JLabel labelBemVindo = new JLabel("Bem-vindo(a), " + usuario.getNome() + "!", SwingConstants.CENTER);
         labelBemVindo.setFont(new Font("Arial", Font.BOLD, 22));
-        labelBemVindo.setBounds(0, 50, 800, 30); // Ocupa a largura toda para ficar bem centralizado
+        labelBemVindo.setBounds(0, 50, 800, 30);
         getContentPane().add(labelBemVindo);
 
         JLabel labelSubtitulo = new JLabel("Selecione uma opção no menu abaixo:", SwingConstants.CENTER);
@@ -50,23 +49,20 @@ public class FuncionarioHomeView extends JFrame {
         btnCadastrarFuncionario.setBounds(xCentro, 370, larguraBotao, alturaBotao);
         getContentPane().add(btnCadastrarFuncionario);
 
-
         btnLogout.setBounds(xCentro, 480, larguraBotao, alturaBotao);
         btnLogout.setForeground(Color.RED);
         getContentPane().add(btnLogout);
 
-        // Chama as ações dos botões
         eventos();
     }
 
     private void eventos() {
 
         btnProdutos.addActionListener(e -> {
-            // Abre a tela de Produtos e passa o usuário atual para lá!
+
             new VisualizarProdutosView(usuarioLogado).setVisible(true);
 
-            // Opcional: Se você quiser que o Menu feche ao abrir os produtos, descomente a linha abaixo
-            // dispose();
+            dispose();
         });
 
         btnVerificarPedido.addActionListener(e -> {
@@ -85,20 +81,19 @@ public class FuncionarioHomeView extends JFrame {
         });
 
         btnLogout.addActionListener(e -> {
-            // Cria uma caixinha perguntando se a pessoa tem certeza que quer sair
+
             int confirmacao = JOptionPane.showConfirmDialog(this,
                     "Tem certeza que deseja sair do sistema?",
                     "Confirmar Logout",
                     JOptionPane.YES_NO_OPTION);
 
             if (confirmacao == JOptionPane.YES_OPTION) {
-                dispose(); // Fecha o menu
-                // new LoginView().setVisible(true); // Futuramente: volta para a tela de Login
+                dispose();
+                // new LoginView().setVisible(true);
             }
         });
     }
 
-    // Main apenas para você testar como a tela ficou
     public static void main(String[] args) {
         try {
             LoginUsuarioModel usuarioFake = new LoginUsuarioModel();

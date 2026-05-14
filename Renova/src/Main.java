@@ -1,4 +1,3 @@
-import Pck_View.IndexView;
 import Pck_View.LoginView;
 
 public class Main {

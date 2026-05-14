@@ -165,7 +165,7 @@ public class VisualizarProdutosView extends JFrame{
                             });
                         } else {
                             JOptionPane.showMessageDialog(this, "Este produto não está mais disponível.");
-                            // carregarTabela();
+                            carregarTabela();
                             inputBuscaId.setText("");
                         }
                     }
