@@ -29,12 +29,13 @@ public class RealizarPedidoView extends JFrame{
     JButton btnBuscaNome = new JButton("Buscar Nome");
 
     JLabel tituloCarrinho = new JLabel("Carrinho");
-    JLabel totalCarrinho = new JLabel("R$00,00");
+    JLabel totalCarrinho = new JLabel("Total: R$ 00.0");
 
     JButton btnRecarregar = new JButton("Limpar Filtros / Recarregar Tudo");
     JButton btnVoltar = new JButton("Voltar");
     JButton btnAdicionar = new JButton("Adicionar item");
     JButton btnRemover = new JButton("Remover item");
+    JButton btnLimparCarrinho = new JButton("Limpar carrinho");
 
     // GridBagConstraints gbc = new GridBagConstraints();
 
@@ -102,24 +103,27 @@ public class RealizarPedidoView extends JFrame{
         modeloSelecionados.addColumn("Preço");
         modeloSelecionados.addColumn("Status");
 
-        JTable produtosSelecionadosTabela = new JTable(modeloSelecionados);
-        JScrollPane scrollSelecionados = new JScrollPane(produtosSelecionadosTabela);
-
-        tituloCarrinho.setBounds(10, 430, 300, 100);
+        tituloCarrinho.setBounds(10, 320, 300, 100);
         tituloCarrinho.setFont(new Font("Segoe UI", Font.BOLD, 20));
         getContentPane().add(tituloCarrinho);
 
-        totalCarrinho.setBounds(10, 450, 300, 100);
-        totalCarrinho.setFont(new Font("Segoe UI", Font.ITALIC, 20));
-        totalCarrinho.setForeground(Color.GREEN);
+        totalCarrinho.setBounds(10, 340, 300, 100);
+        totalCarrinho.setFont(new Font("Segoe UI", Font.ITALIC, 15));
         getContentPane().add(totalCarrinho);
 
-        scrollSelecionados.setBounds(10, 500, 900, 150);
+        JTable produtosSelecionadosTabela = new JTable(modeloSelecionados);
+        JScrollPane scrollSelecionados = new JScrollPane(produtosSelecionadosTabela);
+
+        scrollSelecionados.setBounds(10, 410, 900, 150);
         getContentPane().add(scrollSelecionados);
 
-        btnRemover.setBounds(20, 660, 120, 35);
+        btnRemover.setBounds(20, 580, 120, 40);
         btnRemover.setForeground(Color.RED);
         getContentPane().add(btnRemover);
+
+        btnLimparCarrinho.setBounds(150,580, 120, 40);
+        btnLimparCarrinho.setForeground(Color.RED);
+        getContentPane().add(btnLimparCarrinho);
 
         btnVoltar.setBounds(20, 700, 250, 35);
         getContentPane().add(btnVoltar);
@@ -164,6 +168,10 @@ public class RealizarPedidoView extends JFrame{
             } else {
                 JOptionPane.showMessageDialog(this, "Selecione um item no seu pedido para remover.");
             }
+        });
+        btnLimparCarrinho.addActionListener(e ->{
+            carrinho.clear();
+            atualizarTabelaPedido();
         });
     }
 
@@ -283,7 +291,7 @@ public class RealizarPedidoView extends JFrame{
             total += p.getPreco();
         }
 
-        // labelTotalPedido.setText("Total: R$ " + total);
+        totalCarrinho.setText("Total: R$ " + total);
     }
 
     static void main(String[] args) {
