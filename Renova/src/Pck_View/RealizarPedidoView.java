@@ -28,6 +28,9 @@ public class RealizarPedidoView extends JFrame{
     JTextField inputBuscaNome = new JTextField();
     JButton btnBuscaNome = new JButton("Buscar Nome");
 
+    JLabel tituloCarrinho = new JLabel("Carrinho");
+    JLabel totalCarrinho = new JLabel("R$00,00");
+
     JButton btnRecarregar = new JButton("Limpar Filtros / Recarregar Tudo");
     JButton btnVoltar = new JButton("Voltar");
     JButton btnAdicionar = new JButton("Adicionar item");
@@ -39,21 +42,21 @@ public class RealizarPedidoView extends JFrame{
         this.usuarioLogado = usuario;
 
         setTitle("Realizar novo pedido");
-        setBounds(300, 300, 1000, 850);
+        setBounds(300, 0, 1000, 850);
 
         // define o layout absoluto
         getContentPane().setLayout(null);
 
         JLabel tituloPagina = new JLabel("Realize sua reserva!");
-        tituloPagina.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        tituloPagina.setFont(new Font("Segoe UI", Font.BOLD, 25));
 
         tituloPagina.setBounds(10, 10, 300, 40);
         getContentPane().add(tituloPagina);
 
-        JLabel subtituloPagina = new JLabel("Pesquise e selecione o produto desejado abaixo.");
+        JLabel subtituloPagina = new JLabel("Pesquise e selecione o produto desejado e clique no botão 'adicionar' para adicionar o item ao carrinho.");
         subtituloPagina.setFont(new Font("Segoe UI", Font.ITALIC, 14));
-
-        subtituloPagina.setBounds(10, 35, 400, 40);
+        subtituloPagina.setForeground(Color.BLUE);
+        subtituloPagina.setBounds(10, 35, 800, 40);
         getContentPane().add(subtituloPagina);
 
         // --- TABELA PRODUTOS E SCROLLPANE ---
@@ -77,26 +80,21 @@ public class RealizarPedidoView extends JFrame{
         btnBuscaId.setBounds(300, 240, 120, 30);
         //getContentPane().add(btnBuscaId);
 
-        btnAdicionar.setBounds(300, 240, 120, 30);
-        getContentPane().add(btnAdicionar);
-
-        btnRemover.setBounds(430, 240, 120, 30);
-        getContentPane().add(btnRemover);
-
-        labelBuscaNome.setBounds(20, 290, 140, 30);
+        labelBuscaNome.setBounds(20, 240, 140, 30);
         getContentPane().add(labelBuscaNome);
 
-        inputBuscaNome.setBounds(160, 290, 250, 30);
+        inputBuscaNome.setBounds(160, 240, 250, 35);
         getContentPane().add(inputBuscaNome);
+
+        btnAdicionar.setBounds(430, 240, 250,35);
+        btnAdicionar.setForeground(Color.BLUE);
+        getContentPane().add(btnAdicionar);
+
+        btnRecarregar.setBounds(20, 290, 250, 35);
+        getContentPane().add(btnRecarregar);
 
         btnBuscaNome.setBounds(420, 290, 120, 30);
         //getContentPane().add(btnBuscaNome);
-
-        btnRecarregar.setBounds(20, 350, 250,35);
-        getContentPane().add(btnRecarregar);
-
-        btnVoltar.setBounds(20, 400, 250, 35);
-        getContentPane().add(btnVoltar);
 
         modeloSelecionados.addColumn("Código (ID)");
         modeloSelecionados.addColumn("Nome");
@@ -107,8 +105,24 @@ public class RealizarPedidoView extends JFrame{
         JTable produtosSelecionadosTabela = new JTable(modeloSelecionados);
         JScrollPane scrollSelecionados = new JScrollPane(produtosSelecionadosTabela);
 
-        scrollSelecionados.setBounds(10, 450, 900, 150);
+        tituloCarrinho.setBounds(10, 430, 300, 100);
+        tituloCarrinho.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        getContentPane().add(tituloCarrinho);
+
+        totalCarrinho.setBounds(10, 450, 300, 100);
+        totalCarrinho.setFont(new Font("Segoe UI", Font.ITALIC, 20));
+        totalCarrinho.setForeground(Color.GREEN);
+        getContentPane().add(totalCarrinho);
+
+        scrollSelecionados.setBounds(10, 500, 900, 150);
         getContentPane().add(scrollSelecionados);
+
+        btnRemover.setBounds(20, 660, 120, 35);
+        btnRemover.setForeground(Color.RED);
+        getContentPane().add(btnRemover);
+
+        btnVoltar.setBounds(20, 700, 250, 35);
+        getContentPane().add(btnVoltar);
 
         carregarTabela();
         eventos();
