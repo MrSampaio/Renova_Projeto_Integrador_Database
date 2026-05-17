@@ -68,8 +68,8 @@ public class ClienteHomeView extends JFrame{
         });
 
         btnNovoPedido.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this, "Em breve: Tela de Novo Pedido");
-            // new AtenderPedidoView(usuarioLogado).setVisible(true);
+            new RealizarPedidoView(usuarioLogado).setVisible(true);
+            dispose();
         });
 
         btnLogout.addActionListener(e -> {
@@ -81,7 +81,7 @@ public class ClienteHomeView extends JFrame{
 
             if (confirmacao == JOptionPane.YES_OPTION) {
                 dispose();
-                // new LoginView().setVisible(true);
+                new LoginView().setVisible(true);
             }
         });
     }
@@ -95,7 +95,7 @@ public class ClienteHomeView extends JFrame{
             usuarioFake.setSenha("123456");
             usuarioFake.setTipoUsuario("CLIENTE");
 
-            new FuncionarioHomeView(usuarioFake).setVisible(true);
+            new ClienteHomeView(usuarioFake).setVisible(true);
         } catch (Exception e) {
             System.out.println("Erro ao criar usuário fake: " + e.getMessage());
         }

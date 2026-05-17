@@ -31,7 +31,7 @@ public class RealizarPedidoView extends JFrame{
     JLabel tituloCarrinho = new JLabel("Carrinho");
     JLabel totalCarrinho = new JLabel("Total: R$ 00.0");
 
-    JButton btnRecarregar = new JButton("Limpar Filtros / Recarregar Tudo");
+    JButton btnRecarregar = new JButton("Limpar Filtro / Recarregar Tudo");
     JButton btnVoltar = new JButton("Voltar");
     JButton btnAdicionar = new JButton("Adicionar item");
     JButton btnRemover = new JButton("Remover item");
@@ -101,7 +101,6 @@ public class RealizarPedidoView extends JFrame{
         modeloSelecionados.addColumn("Nome");
         modeloSelecionados.addColumn("Descrição");
         modeloSelecionados.addColumn("Preço");
-        modeloSelecionados.addColumn("Status");
 
         tituloCarrinho.setBounds(10, 320, 300, 100);
         tituloCarrinho.setFont(new Font("Segoe UI", Font.BOLD, 20));
@@ -287,7 +286,7 @@ public class RealizarPedidoView extends JFrame{
         double total = 0.0;
 
         for (ProdutoModel p : carrinho) {
-            modeloSelecionados.addRow(new Object[]{ p.getIdProduto(), p.getNomeProduto(), p.getPreco() });
+            modeloSelecionados.addRow(new Object[]{ p.getIdProduto(), p.getNomeProduto(), p.getDescricao(), p.getPreco() });
             total += p.getPreco();
         }
 
