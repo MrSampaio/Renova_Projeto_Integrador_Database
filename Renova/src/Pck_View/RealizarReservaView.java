@@ -1,6 +1,7 @@
 package Pck_View;
 
 import Pck_Control.ProdutoControl;
+import Pck_Control.ReservaControl;
 import Pck_Model.LoginUsuarioModel;
 import Pck_Model.ProdutoModel;
 
@@ -9,7 +10,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class RealizarPedidoView extends JFrame{
+public class RealizarReservaView extends JFrame{
 
     LoginUsuarioModel usuarioLogado;
 
@@ -19,6 +20,10 @@ public class RealizarPedidoView extends JFrame{
     DefaultTableModel modeloSelecionados = new DefaultTableModel();
 
     ArrayList<ProdutoModel> carrinho = new ArrayList<>();
+
+    JLabel labelPagamento = new JLabel("Escolha o método de pagamento:");
+    String[] opcoesPagamento = {"Débito", "Pix", "Dinheiro"};
+    JComboBox<String> metodosPagamento= new JComboBox<>(opcoesPagamento);
 
     JLabel labelBuscaId = new JLabel("Pesquisar por ID:");
     JTextField inputBuscaId = new JTextField();
@@ -36,10 +41,11 @@ public class RealizarPedidoView extends JFrame{
     JButton btnAdicionar = new JButton("Adicionar item");
     JButton btnRemover = new JButton("Remover item");
     JButton btnLimparCarrinho = new JButton("Limpar carrinho");
+    JButton btnCriarPedido = new JButton("Criar pedido");
 
     // GridBagConstraints gbc = new GridBagConstraints();
 
-    public RealizarPedidoView(LoginUsuarioModel usuario){
+    public RealizarReservaView(LoginUsuarioModel usuario){
         this.usuarioLogado = usuario;
 
         setTitle("Realizar novo pedido");
@@ -124,7 +130,16 @@ public class RealizarPedidoView extends JFrame{
         btnLimparCarrinho.setForeground(Color.RED);
         getContentPane().add(btnLimparCarrinho);
 
-        btnVoltar.setBounds(20, 700, 250, 35);
+        labelPagamento.setBounds(20, 630, 250, 40);
+        getContentPane().add(labelPagamento);
+        metodosPagamento.setBounds(240,630, 120, 40);
+        getContentPane().add(metodosPagamento);
+
+        btnCriarPedido.setBounds(20, 680, 120, 40);
+        btnCriarPedido.setForeground(Color.BLUE);
+        getContentPane().add(btnCriarPedido);
+
+        btnVoltar.setBounds(20, 750, 250, 35);
         getContentPane().add(btnVoltar);
 
         carregarTabela();
@@ -171,6 +186,45 @@ public class RealizarPedidoView extends JFrame{
         btnLimparCarrinho.addActionListener(e ->{
             carrinho.clear();
             atualizarTabelaPedido();
+        });
+        btnCriarPedido.addActionListener(e -> {
+
+            if (carrinho.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Seu carrinho está vazio! Adicione itens primeiro.", "Aviso", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            double totalPedido = 0.0;
+            for (ProdutoModel p : carrinho) {
+                totalPedido += p.getPreco();
+            }
+
+            // pega o método de pagamento selecionado na ComboBox
+            String metodoPagamento = (String) metodosPagamento.getSelectedItem();
+
+            // pede confirmação do usuário
+            int confirmacao = JOptionPane.showConfirmDialog(this,
+                    "Total do Pedido: R$ " + totalPedido + "\nMétodo de pagamento: " + metodoPagamento + "\n\nConfirmar reserva?",
+                    "Finalizar", JOptionPane.YES_NO_OPTION);
+
+            if (confirmacao == JOptionPane.YES_OPTION) {
+                try {
+                    ReservaControl reservaControl = new ReservaControl();
+
+                    boolean sucesso = reservaControl.realizarReserva(usuarioLogado.getIdUsuario(), totalPedido, metodoPagamento, carrinho);
+
+                    if (sucesso) {
+                        JOptionPane.showMessageDialog(this, "Pedido finalizado com sucesso!\nOs produtos foram reservados.", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+
+                        // limpa o carrinho e recarrega a tela
+                        carrinho.clear();
+                        atualizarTabelaPedido();
+                        carregarTabela();
+                    }
+                } catch (Exception erro) {
+                    JOptionPane.showMessageDialog(this, erro.getMessage(), "Erro no Servidor", JOptionPane.ERROR_MESSAGE);
+                }
+            }
         });
     }
 
@@ -304,6 +358,6 @@ public class RealizarPedidoView extends JFrame{
         // TROQUE AQUI PARA TESTAR: "FUNCIONARIO" ou "CLIENTE"
         usuarioFake.setTipoUsuario("CLIENTE");
 
-        new RealizarPedidoView(usuarioFake).setVisible(true);
+        new RealizarReservaView(usuarioFake).setVisible(true);
     }
 }

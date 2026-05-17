@@ -68,7 +68,7 @@ public class ClienteHomeView extends JFrame{
         });
 
         btnNovoPedido.addActionListener(e -> {
-            new RealizarPedidoView(usuarioLogado).setVisible(true);
+            new RealizarReservaView(usuarioLogado).setVisible(true);
             dispose();
         });
 

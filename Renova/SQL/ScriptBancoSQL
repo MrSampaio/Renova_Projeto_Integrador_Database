@@ -5,7 +5,7 @@ USE renova;
 CREATE TABLE usuario (
     id_usuario INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
-    telefone VARCHAR(20),
+    telefone CHAR(11),
     email VARCHAR(100) UNIQUE,
     senha VARCHAR(255) NOT NULL,
     tipo_usuario ENUM('CLIENTE', 'FUNCIONARIO') DEFAULT 'CLIENTE' NOT NULL
@@ -19,20 +19,19 @@ CREATE TABLE produto (
     status ENUM('Disponível', 'Reservado', 'Vendido') DEFAULT 'Disponível'
 );
 
--- 4. Criação da tabela de Reserva
 CREATE TABLE reserva (
     id_reserva INT AUTO_INCREMENT PRIMARY KEY,
     id_usuario INT NOT NULL,
+    metodo_pagamento ENUM('Dinheiro', 'Débito', 'Pix') DEFAULT 'Débito',
     data_reserva DATETIME DEFAULT CURRENT_TIMESTAMP,
     data_validade DATETIME,
+    status_reserva ENUM('Aguardando pagamento', 'Concluída', 'Cancelada') DEFAULT 'Aguardando pagamento',
     FOREIGN KEY (id_usuario) REFERENCES USUARIO(id_usuario)
 );
 
--- 5. Itens da Reserva
--- (Criada para atender sua regra: "um pedido pode ter vários itens")
 CREATE TABLE itens_reserva(
     id_reserva INT NOT NULL,
-    id_produto INT NOT NULL UNIQUE, -- UNIQUE garante que a mesma peça física não seja reservada em dois pedidos diferentes
+    id_produto INT NOT NULL UNIQUE,
     PRIMARY KEY (id_reserva, id_produto),
     FOREIGN KEY (id_reserva) REFERENCES reserva(id_reserva),
     FOREIGN KEY (id_produto) REFERENCES produto(id_produto)
@@ -109,6 +108,46 @@ END //
 
 DELIMITER ;
 
+DELIMITER //
+
+CREATE PROCEDURE PROC_BUSCAR_PRODUTO_POR_ID(
+    IN p_id_produto INT
+)
+BEGIN
+    SELECT
+        id_produto,
+        nome_produto,
+        descricao,
+        preco,
+        status
+    FROM
+        produto
+    WHERE
+        id_produto = p_id_produto;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE PROC_BUSCAR_PRODUTO_POR_NOME(
+    IN p_nome VARCHAR(100)
+)
+BEGIN
+    SELECT
+        id_produto,
+        nome_produto,
+        descricao,
+        preco,
+        status
+    FROM
+        produto
+    WHERE
+        nome_produto LIKE CONCAT('%', p_nome, '%');
+END //
+
+DELIMITER ;
+
 
 SELECT * FROM renova.usuario;
 SELECT * FROM renova.produto;
@@ -134,6 +173,31 @@ INSERT INTO produto (nome_produto, descricao, preco, status) VALUES
 ('Relógio Analógico', 'Relógio de pulso prateado resistente à água', 150.00, 'Reservado'),
 ('Cachecol Xadrez', 'Cachecol de lã macia para o inverno', 45.90, 'Disponível'),
 ('Mochila Escolar', 'Mochila preta com vários compartimentos', 110.00, 'Disponível');
+
+INSERT INTO produto (nome_produto, descricao, preco, status) VALUES
+('Blusa de Seda', 'Blusa feminina de seda pura manga curta', 145.00, 'Disponível'),
+('Bermuda Sarja', 'Bermuda masculina de sarja bege', 89.90, 'Disponível'),
+('Gorro de Lã', 'Gorro unissex de lã para frio extremo', 35.00, 'Vendido'),
+('Saia Lápis', 'Saia social modelo lápis preta', 79.90, 'Reservado'),
+('Camisa Xadrez', 'Camisa flanela xadrez vermelho e preto', 115.00, 'Disponível'),
+('Sapatilha Feminina', 'Sapatilha bico fino de couro sintético', 65.50, 'Disponível'),
+('Casaco de Inverno', 'Casaco longo forrado impermeável', 320.00, 'Vendido'),
+('Maiô Estampado', 'Maiô de praia com estampa tropical', 95.00, 'Disponível'),
+('Sunga Preta', 'Sunga masculina básica preta', 45.00, 'Reservado'),
+('Cinto Feminino', 'Cinto fino vermelho com fivela dourada', 30.00, 'Disponível'),
+('Sapato Social', 'Sapato de couro masculino marrom', 185.00, 'Disponível'),
+('Vestido de Festa', 'Vestido longo de gala azul marinho', 450.00, 'Vendido'),
+('Blazer Masculino', 'Blazer slim fit corte italiano cinza', 280.00, 'Disponível'),
+('Meia Calça', 'Meia calça fio 40 cor da pele', 20.00, 'Reservado'),
+('Carteira de Couro', 'Carteira masculina slim com porta moedas', 55.00, 'Disponível'),
+('Biquíni Cintura Alta', 'Conjunto biquíni estilo retrô', 85.00, 'Vendido'),
+('Jaqueta Corta-Vento', 'Jaqueta esportiva leve impermeável', 135.90, 'Disponível'),
+('Pijama de Algodão', 'Conjunto pijama longo masculino', 90.00, 'Disponível'),
+('Boné Aba Reta', 'Boné estilo urbano com ajuste', 40.00, 'Reservado'),
+('Luvas de Couro', 'Luvas de couro forradas de inverno', 110.00, 'Disponível');
+
+INSERT INTO usuario (nome, telefone, email, senha, tipo_usuario)
+VALUES ('Funcionário Padrão', '11999999999', 'funcionario1@gmail.com', '12345', 'FUNCIONARIO');
 
 /*
 -- 6. Criação da tabela de Venda (Fiel ao diagrama)
