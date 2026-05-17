@@ -7,7 +7,6 @@ public class ProdutoModel {
     private double preco;
     private String status;
 
-
     public int getIdProduto() {
         return idProduto;
     }
@@ -38,7 +37,7 @@ public class ProdutoModel {
 
     public void setDescricao(String descricao) {
         if(descricao == null || descricao.isEmpty() || descricao.length() <= 0){
-            throw new IllegalArgumentException("O campo de 'descricao' é obrigatório!");
+            throw new IllegalArgumentException("O campo de 'descrição' é obrigatório!");
         } else{
             this.descricao = descricao;
         }
