@@ -84,7 +84,7 @@ public class ReservaPersistencia {
 
         Connection conn = null;
         CallableStatement stmt = null;
-        ResultSet resultSet;
+        ResultSet resultSet = null;
 
         String sql = "{CALL PROC_LISTAR_PRODUTOS()}";
 
