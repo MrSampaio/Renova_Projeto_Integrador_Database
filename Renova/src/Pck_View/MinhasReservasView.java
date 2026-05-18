@@ -49,10 +49,11 @@ public class MinhasReservasView extends JFrame{
     private void carregarTabela(){
 
         try {
-            modelo.setRowCount(0); // Limpa a tabela
-            ArrayList<ReservaModel> lista = control.listarProdutos();
+            modelo.setRowCount(0);// Limpa a tabela
+            int idUsuario = usuarioLogado.getIdUsuario();
+            ArrayList<ReservaModel> lista = control.listarReservas(idUsuario);
 
-            for(ProdutoModel p : lista) {
+            for(ReservaModel p : lista) {
 
                 // se for FUNCIONARIO, mostra TUDO
                 if (usuarioLogado.getTipoUsuario().equalsIgnoreCase("FUNCIONARIO")) {

@@ -14,9 +14,9 @@ public class ReservaControl {
         return persistencia.finalizarPedido(idUsuario, totalPedido, metodoPagamento, carrinho);
     }
 
-    public ArrayList<ReservaModel> listarReservas(){
+    public ArrayList<ReservaModel> listarReservas(int idUsuario){
         ReservaPersistencia persistencia = new ReservaPersistencia();
-        return persistencia.listarReservas();
+        return persistencia.listarReservas(idUsuario);
     }
 
 

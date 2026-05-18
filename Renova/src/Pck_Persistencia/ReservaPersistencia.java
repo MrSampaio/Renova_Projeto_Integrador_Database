@@ -80,13 +80,13 @@ public class ReservaPersistencia {
         }
     }
 
-    public ArrayList<ReservaModel> listarReservas(){
+    public ArrayList<ReservaModel> listarReservas(int idUsuario){
 
         Connection conn = null;
         CallableStatement stmt = null;
         ResultSet resultSet = null;
 
-        String sql = "{CALL PROC_LISTAR_PRODUTOS()}";
+        String sql = "{CALL PROC_LISTAR_RESERVAS_POR_USUARIO(?)}";
 
         try{
             ConexaoMySql conexaoBD = new ConexaoMySql();
@@ -96,6 +96,7 @@ public class ReservaPersistencia {
 
             ArrayList<ReservaModel> lista = new ArrayList<>();
 
+            stmt.setInt(1, idUsuario);
             resultSet= stmt.executeQuery();
 
             while(resultSet.next()){
