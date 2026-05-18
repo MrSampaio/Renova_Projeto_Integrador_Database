@@ -214,7 +214,7 @@ public class RealizarReservaView extends JFrame{
                     boolean sucesso = reservaControl.realizarReserva(usuarioLogado.getIdUsuario(), totalPedido, metodoPagamento, carrinho);
 
                     if (sucesso) {
-                        JOptionPane.showMessageDialog(this, "Pedido finalizado com sucesso!\nOs produtos foram reservados.", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "Pedido finalizado com sucesso!\nOs produtos foram reservados.\nVocê tem 7 dias para retirar o pedido antes que a reserva expire.", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
 
                         // limpa o carrinho e recarrega a tela
                         carrinho.clear();

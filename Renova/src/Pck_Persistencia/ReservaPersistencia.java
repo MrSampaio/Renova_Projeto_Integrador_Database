@@ -2,8 +2,11 @@ package Pck_Persistencia;
 
 import Pck_Model.ProdutoModel;
 import Pck_DAO.ConexaoMySql;
+import Pck_Model.ReservaModel;
+
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -73,6 +76,67 @@ public class ReservaPersistencia {
                 }
             } catch (SQLException e) {
                 System.out.println("Erro ao fechar conexão: " + e.getMessage());
+            }
+        }
+    }
+
+    public ArrayList<ReservaModel> listarReservas(){
+
+        Connection conn = null;
+        CallableStatement stmt = null;
+        ResultSet resultSet;
+
+        String sql = "{CALL PROC_LISTAR_PRODUTOS()}";
+
+        try{
+            ConexaoMySql conexaoBD = new ConexaoMySql();
+
+            conn = ConexaoMySql.getConn(ConexaoMySql.login, ConexaoMySql.senha);
+            stmt = conn.prepareCall(sql);
+
+            ArrayList<ReservaModel> lista = new ArrayList<>();
+
+            resultSet= stmt.executeQuery();
+
+            while(resultSet.next()){
+
+                ReservaModel reserva = new ReservaModel();
+
+                reserva.setIdReserva(resultSet.getInt("id_reserva"));
+                reserva.setTotalReserva(resultSet.getDouble("total_reserva"));
+                reserva.setMetodoPagamento(resultSet.getString("metodo_pagamento"));
+                reserva.setDataReserva(resultSet.getString("data_reserva"));
+                reserva.setDataValidade(resultSet.getString("data_validade"));
+                reserva.setStatusReserva(resultSet.getString("status_reserva"));
+
+                lista.add(reserva);
+            }
+
+            if(!lista.isEmpty()){
+                System.out.println("Reservas listadas com sucesso.");
+            } else{
+                System.out.println("Erro ao listar reservas.");
+            }
+
+            return lista;
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro no banco de dados ao listar reservas: " + e.getMessage());
+
+        }finally {
+            try {
+                if (stmt != null){
+                    stmt.close();
+                }
+                if (conn != null){
+                    new ConexaoMySql().desconectar();
+                }
+                if(resultSet != null){
+                    resultSet.close();
+                }
+
+            } catch (SQLException e) {
+                System.out.println("Falha ao fechar a conexão com o banco - " + e.getMessage());
             }
         }
     }

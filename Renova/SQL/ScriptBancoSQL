@@ -22,12 +22,16 @@ CREATE TABLE produto (
 CREATE TABLE reserva (
     id_reserva INT AUTO_INCREMENT PRIMARY KEY,
     id_usuario INT NOT NULL,
+    total_reserva DECIMAL(10, 2) NOT NULL,
     metodo_pagamento ENUM('Dinheiro', 'Débito', 'Pix') DEFAULT 'Débito',
     data_reserva DATETIME DEFAULT CURRENT_TIMESTAMP,
-    data_validade DATETIME,
-    status_reserva ENUM('Aguardando pagamento', 'Concluída', 'Cancelada') DEFAULT 'Aguardando pagamento',
+    data_validade DATE,
+    status_reserva ENUM('Aguardando pagamento', 'Concluída', 'jus') DEFAULT 'Aguardando pagamento',
     FOREIGN KEY (id_usuario) REFERENCES USUARIO(id_usuario)
 );
+
+SELECT * FROM reserva;
+
 
 CREATE TABLE itens_reserva(
     id_reserva INT NOT NULL,
@@ -36,6 +40,7 @@ CREATE TABLE itens_reserva(
     FOREIGN KEY (id_reserva) REFERENCES reserva(id_reserva),
     FOREIGN KEY (id_produto) REFERENCES produto(id_produto)
 );
+SELECT * FROM itens_reserva;
 
 DELIMITER //
 
@@ -67,8 +72,6 @@ CREATE PROCEDURE PROC_CADASTRAR_USUARIO(
     IN p_tipo_usuario VARCHAR(100)
 )
 BEGIN
-    -- Insere os dados na tabela usuario
-    -- O id_usuario é AUTO_INCREMENT, então não precisamos passá-lo
     INSERT INTO usuario (nome, telefone, email, senha, tipo_usuario)
     VALUES (p_nome, p_telefone, p_email, p_senha, p_tipo_usuario);
 
@@ -148,6 +151,42 @@ END //
 
 DELIMITER ;
 
+DELIMITER //
+
+CREATE PROCEDURE PROC_CRIAR_RESERVA(
+    IN p_id_usuario INT,
+    IN p_total DECIMAL(10, 2),
+    IN p_metodo VARCHAR(50),
+    OUT p_id_gerado INT
+)
+BEGIN
+    INSERT INTO reserva (id_usuario, total_reserva, metodo_pagamento, data_validade)
+    VALUES (p_id_usuario, p_total, p_metodo, DATE_ADD(CURRENT_DATE(), INTERVAL 7 DAY));
+
+    SET p_id_gerado = LAST_INSERT_ID();
+END //
+
+DELIMITER ;
+
+
+DELIMITER //
+
+
+CREATE PROCEDURE PROC_INSERIR_ITEM_RESERVA(
+    IN p_id_reserva INT,
+    IN p_id_produto INT
+)
+BEGIN
+
+    INSERT INTO itens_reserva (id_reserva, id_produto)
+    VALUES (p_id_reserva, p_id_produto);
+
+    UPDATE produto
+    SET status = 'Reservado'
+    WHERE id_produto = p_id_produto;
+END //
+
+DELIMITER ;
 
 SELECT * FROM renova.usuario;
 SELECT * FROM renova.produto;
@@ -198,27 +237,4 @@ INSERT INTO produto (nome_produto, descricao, preco, status) VALUES
 
 INSERT INTO usuario (nome, telefone, email, senha, tipo_usuario)
 VALUES ('Funcionário Padrão', '11999999999', 'funcionario1@gmail.com', '12345', 'FUNCIONARIO');
-
-/*
--- 6. Criação da tabela de Venda (Fiel ao diagrama)
-CREATE TABLE venda (
-    id_venda INT AUTO_INCREMENT PRIMARY KEY,
-    id_usuario INT, -- Nullable (opcional) conforme o diagrama
-    data_venda DATETIME DEFAULT CURRENT_TIMESTAMP,
-    metodo_pagamento VARCHAR(50),
-    valor_total DECIMAL(10, 2) NOT NULL,
-    FOREIGN KEY (id_usuario) REFERENCES USUARIO(id_usuario)
-);
-
--- 7. Itens da Venda (Fiel ao diagrama)
--- Permite que uma venda tenha várias peças listadas
-CREATE TABLE itens_venda(
-    id_venda INT NOT NULL,
-    id_peca INT NOT NULL UNIQUE, -- UNIQUE garante que a mesma peça não seja vendida mais de uma vez
-    PRIMARY KEY (id_venda, id_produto),
-    FOREIGN KEY (id_venda) REFERENCES VENDA(id_venda),
-    FOREIGN KEY (id_produto) REFERENCES produto(id_peca)
-);
-
-*/
 
