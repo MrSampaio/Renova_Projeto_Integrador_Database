@@ -168,7 +168,6 @@ public class RealizarReservaView extends JFrame{
                     JOptionPane.showMessageDialog(null, erro);
                 }
 
-
             } else {
                 JOptionPane.showMessageDialog(this, "Selecione um produto no catálogo primeiro.");
             }
@@ -311,7 +310,7 @@ public class RealizarReservaView extends JFrame{
             }
         });
 
-        inputBuscaId.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+        /* inputBuscaId.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
             public void insertUpdate(javax.swing.event.DocumentEvent e) {
                 atualizarTabelaDinamicaNome();
             }
@@ -323,6 +322,9 @@ public class RealizarReservaView extends JFrame{
             }
         });
 
+
+         */
+
         btnRecarregar.addActionListener(e -> {
             inputBuscaNome.setText("");
             inputBuscaId.setText("");
@@ -331,6 +333,7 @@ public class RealizarReservaView extends JFrame{
 
         btnVoltar.addActionListener(e ->{
             new ClienteHomeView(usuarioLogado).setVisible(true);
+            dispose();
         });
 
     }
