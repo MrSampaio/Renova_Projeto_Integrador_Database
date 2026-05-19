@@ -53,32 +53,16 @@ public class MinhasReservasView extends JFrame{
             int idUsuario = usuarioLogado.getIdUsuario();
             ArrayList<ReservaModel> lista = control.listarReservas(idUsuario);
 
-            for(ReservaModel p : lista) {
+            for(ReservaModel reserva : lista) {
 
-                // se for FUNCIONARIO, mostra TUDO
-                if (usuarioLogado.getTipoUsuario().equalsIgnoreCase("FUNCIONARIO")) {
-                    modelo.addRow(new Object[]{
-                            p.getIdProduto(),
-                            p.getNomeProduto(),
-                            p.getDescricao(),
-                            p.getPreco(),
-                            p.getStatus()
-                    });
-                }
-
-                // se for CLIENTE, oculta os reservados e vendidos (mostra só os disponíveis)
-                else if (usuarioLogado.getTipoUsuario().equalsIgnoreCase("CLIENTE")) {
-
-                    if(!p.getStatus().equalsIgnoreCase("Reservado") && !p.getStatus().equalsIgnoreCase("Vendido")) {
-                        modelo.addRow(new Object[]{
-                                p.getIdProduto(),
-                                p.getNomeProduto(),
-                                p.getDescricao(),
-                                p.getPreco(),
-                                p.getStatus()
-                        });
-                    }
-                }
+                modelo.addRow(new Object[]{
+                        reserva.getIdReserva(),
+                        reserva.getTotalReserva(),
+                        reserva.getMetodoPagamento(),
+                        reserva.getDataReserva(),
+                        reserva.getDataValidade(),
+                        reserva.getStatusReserva()
+                });
             }
 
         } catch(Exception erro){
