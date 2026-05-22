@@ -44,6 +44,8 @@ public class MinhasReservasView extends JFrame{
         painel.setBounds(10, 70, 900, 150);
         getContentPane().add(painel);
 
+        carregarTabela();
+
     }
 
     private void carregarTabela(){
@@ -57,7 +59,7 @@ public class MinhasReservasView extends JFrame{
 
                 modelo.addRow(new Object[]{
                         reserva.getIdReserva(),
-                        reserva.getTotalReserva(),
+                        "R$ " + String.format("%.2f", reserva.getTotalReserva()),
                         reserva.getMetodoPagamento(),
                         reserva.getDataReserva(),
                         reserva.getDataValidade(),

@@ -45,7 +45,7 @@ public class VisualizarProdutosView extends JFrame{
         this.usuarioLogado = usuario;
 
         setTitle("Visualizar Produto");
-        setBounds(100, 100, 800, 700);
+        setBounds(100, 100, 1200, 700);
 
         // define o layout absoluto
         getContentPane().setLayout(null);
@@ -59,7 +59,7 @@ public class VisualizarProdutosView extends JFrame{
         modelo.addColumn("Status");
 
         JScrollPane painel = new JScrollPane(tabela);
-        painel.setBounds(10, 50, 760, 350);
+        painel.setBounds(10, 50, 1000, 350);
         getContentPane().add(painel);
 
         labelBuscaId.setBounds(20, 430, 120, 30);

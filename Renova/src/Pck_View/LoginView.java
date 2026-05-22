@@ -26,7 +26,6 @@ public class LoginView extends JFrame{
         getContentPane().setBackground(new Color(199, 255, 235));
         getContentPane().setLayout(new GridBagLayout());
 
-
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.insets = new Insets(10, 0, 10, 0);

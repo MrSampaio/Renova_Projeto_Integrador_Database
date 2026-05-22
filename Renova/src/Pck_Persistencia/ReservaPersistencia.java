@@ -8,6 +8,7 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class ReservaPersistencia {
@@ -88,6 +89,10 @@ public class ReservaPersistencia {
 
         String sql = "{CALL PROC_LISTAR_RESERVAS_POR_USUARIO(?)}";
 
+        // Formatadores para deixar a data no padrão brasileiro
+        SimpleDateFormat formatoDataHora = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        SimpleDateFormat formatoDataSimples = new SimpleDateFormat("dd/MM/yyyy");
+
         try{
             ConexaoMySql conexaoBD = new ConexaoMySql();
 
@@ -106,10 +111,19 @@ public class ReservaPersistencia {
                 reserva.setIdReserva(resultSet.getInt("id_reserva"));
                 reserva.setTotalReserva(resultSet.getDouble("total_reserva"));
                 reserva.setMetodoPagamento(resultSet.getString("metodo_pagamento"));
-                reserva.setDataReserva(resultSet.getString("data_reserva"));
-                reserva.setDataValidade(resultSet.getString("data_validade"));
-                reserva.setStatusReserva(resultSet.getString("status_reserva"));
 
+                java.sql.Timestamp tsReserva = resultSet.getTimestamp("data_reserva");
+                if (tsReserva != null) {
+                    reserva.setDataReserva(formatoDataHora.format(tsReserva));
+                }
+
+                // Para DATE (data limite de validade)
+                java.sql.Date dtValidade = resultSet.getDate("data_validade");
+                if (dtValidade != null) {
+                    reserva.setDataValidade(formatoDataSimples.format(dtValidade));
+                }
+
+                reserva.setStatusReserva(resultSet.getString("status_reserva"));
                 lista.add(reserva);
             }
 

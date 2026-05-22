@@ -89,7 +89,7 @@ public class FuncionarioHomeView extends JFrame {
 
             if (confirmacao == JOptionPane.YES_OPTION) {
                 dispose();
-                // new LoginView().setVisible(true);
+                new LoginView().setVisible(true);
             }
         });
     }
