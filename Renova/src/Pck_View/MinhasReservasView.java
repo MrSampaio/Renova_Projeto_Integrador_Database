@@ -44,6 +44,12 @@ public class MinhasReservasView extends JFrame{
         painel.setBounds(10, 70, 900, 150);
         getContentPane().add(painel);
 
+        tabela.setShowGrid(true);
+        tabela.setShowHorizontalLines(true);
+        tabela.setShowVerticalLines(true);
+        tabela.setGridColor(Color.BLUE);
+        tabela.setIntercellSpacing(new Dimension(2, 2));
+
         carregarTabela();
 
     }
