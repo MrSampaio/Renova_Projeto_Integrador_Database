@@ -30,6 +30,8 @@ public class MinhasReservasView extends JFrame{
 
     JButton btnRecarregar = new JButton("Limpar Filtro / Recarregar Tudo");
 
+    JButton btnVoltar = new JButton("Voltar");
+
     public MinhasReservasView(LoginUsuarioModel usuarioLogado){
         this.usuarioLogado = usuarioLogado;
 
@@ -84,9 +86,8 @@ public class MinhasReservasView extends JFrame{
         JLabel produtosPorReserva = new JLabel("Produtos da reserva");
         produtosPorReserva.setFont(new Font("Segoe UI", Font.BOLD, 20));
 
-        produtosPorReserva.setBounds(10, 320, 300, 40);
+        produtosPorReserva.setBounds(10, 350, 300, 40);
         getContentPane().add(produtosPorReserva);
-
 
         JScrollPane scrollSelecionados = new JScrollPane(produtosReserva);
 
@@ -102,8 +103,11 @@ public class MinhasReservasView extends JFrame{
         produtosReserva.setGridColor(Color.BLACK);
         produtosReserva.setIntercellSpacing(new Dimension(2, 2));
 
-        scrollSelecionados.setBounds(10, 370, 900, 300);
+        scrollSelecionados.setBounds(10, 400, 900, 300);
         getContentPane().add(scrollSelecionados);
+
+        btnVoltar.setBounds(20, 750, 250, 35);
+        getContentPane().add(btnVoltar);
 
         carregarTabela();
         eventos();
@@ -177,6 +181,44 @@ public class MinhasReservasView extends JFrame{
             inputBuscaId.setText("");
             modeloProdutos.setRowCount(0);
             carregarTabela();
+        });
+
+        btnBuscaId.addActionListener(e -> {
+            String idDigitado = inputBuscaId.getText();
+
+            try {
+                int idBusca = Integer.parseInt(idDigitado);
+                int idUsuario = usuarioLogado.getIdUsuario();
+
+                ReservaModel reserva = control.buscarReservaPorId(idBusca, idUsuario);
+
+                modelo.setRowCount(0);
+                modeloProdutos.setRowCount(0);
+
+                if (reserva != null) {
+                    modelo.addRow(new Object[]{
+                            reserva.getIdReserva(),
+                            "R$ " + String.format("%.2f", reserva.getTotalReserva()),
+                            reserva.getMetodoPagamento(),
+                            reserva.getDataReserva(),
+                            reserva.getDataValidade(),
+                            reserva.getStatusReserva()
+                    });
+                } else {
+                    JOptionPane.showMessageDialog(this, "Nenhuma reserva encontrada com o ID " + idBusca + " para o seu usuário.", "Aviso", JOptionPane.WARNING_MESSAGE);
+                    carregarTabela();
+                }
+
+            } catch (NumberFormatException erro) {
+                JOptionPane.showMessageDialog(this, "Por favor, digite um número inteiro válido para a busca.", "Erro de preenchimento", JOptionPane.ERROR_MESSAGE);
+            } catch (Exception erro) {
+                JOptionPane.showMessageDialog(this, "Erro ao buscar: " + erro.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        btnVoltar.addActionListener(e ->{
+            new ClienteHomeView(usuarioLogado).setVisible(true);
+            dispose();
         });
     }
 

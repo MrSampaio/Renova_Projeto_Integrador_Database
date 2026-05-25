@@ -63,8 +63,8 @@ public class ClienteHomeView extends JFrame{
         });
 
         btnMeusPedidos.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this, "Em breve: Tela de Meus Pedidos");
-            // new VerificarPedidoView(usuarioLogado).setVisible(true);
+            new MinhasReservasView(usuarioLogado).setVisible(true);
+            dispose();
         });
 
         btnNovoPedido.addActionListener(e -> {
