@@ -26,7 +26,7 @@ CREATE TABLE reserva (
     metodo_pagamento ENUM('Dinheiro', 'Débito', 'Pix') DEFAULT 'Débito',
     data_reserva DATETIME DEFAULT CURRENT_TIMESTAMP,
     data_validade DATE,
-    status_reserva ENUM('Aguardando pagamento', 'Concluída', 'jus') DEFAULT 'Aguardando pagamento',
+    status_reserva ENUM('Aguardando pagamento', 'Concluída', 'Cancelada') DEFAULT 'Aguardando pagamento',
     FOREIGN KEY (id_usuario) REFERENCES USUARIO(id_usuario)
 );
 
@@ -184,6 +184,72 @@ BEGIN
     UPDATE produto
     SET status = 'Reservado'
     WHERE id_produto = p_id_produto;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE PROC_LISTAR_RESERVAS_POR_USUARIO(
+    IN p_id_usuario INT
+)
+BEGIN
+    SELECT
+        id_reserva,
+        total_reserva,
+        metodo_pagamento,
+        data_reserva,
+        data_validade,
+        status_reserva
+    FROM
+        reserva
+    WHERE
+        id_usuario = p_id_usuario;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE PROC_LISTAR_PRODUTOS_POR_RESERVA(
+    IN p_id_reserva INT
+)
+BEGIN
+    SELECT
+        ir.id_reserva,
+        p.id_produto,
+        p.nome_produto,
+        p.descricao,
+        p.preco
+    FROM
+        itens_reserva ir
+    INNER JOIN
+        produto p ON ir.id_produto = p.id_produto
+    WHERE
+        ir.id_reserva = p_id_reserva;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE PROC_BUSCAR_RESERVA_POR_ID(
+    IN p_id_reserva INT,
+    IN p_id_usuario INT
+)
+BEGIN
+    SELECT
+        id_reserva,
+        total_reserva,
+        metodo_pagamento,
+        data_reserva,
+        data_validade,
+        status_reserva
+    FROM
+        reserva
+    WHERE
+        id_reserva = p_id_reserva
+        AND id_usuario = p_id_usuario;
 END //
 
 DELIMITER ;
