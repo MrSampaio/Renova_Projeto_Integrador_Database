@@ -13,7 +13,14 @@ public class MinhasReservasView extends JFrame{
     LoginUsuarioModel usuarioLogado;
 
     DefaultTableModel modelo = new DefaultTableModel();
+    DefaultTableModel modeloProdutos = new DefaultTableModel();
     ReservaControl control = new ReservaControl();
+
+    JLabel labelBuscaId = new JLabel("Pesquisar por ID:");
+    JTextField inputBuscaId = new JTextField();
+    JButton btnBuscaId = new JButton("Buscar");
+
+    JButton btnRecarregar = new JButton("Limpar Filtro / Recarregar Tudo");
 
     public MinhasReservasView(LoginUsuarioModel usuarioLogado){
         this.usuarioLogado = usuarioLogado;
@@ -48,6 +55,36 @@ public class MinhasReservasView extends JFrame{
         tabela.setGridColor(Color.BLACK);
         tabela.setIntercellSpacing(new Dimension(2, 2));
 
+        labelBuscaId.setBounds(20, 240, 120, 30);
+        getContentPane().add(labelBuscaId);
+
+        inputBuscaId.setBounds(140, 240, 150, 30);
+        getContentPane().add(inputBuscaId);
+
+        btnBuscaId.setBounds(300, 240, 120, 30);
+        getContentPane().add(btnBuscaId);
+
+        btnRecarregar.setBounds(20, 280, 250, 35);
+        getContentPane().add(btnRecarregar);
+
+        JLabel produtosPorReserva = new JLabel("Produtos da reserva");
+        produtosPorReserva.setFont(new Font("Segoe UI", Font.BOLD, 20));
+
+        produtosPorReserva.setBounds(10, 320, 300, 40);
+        getContentPane().add(produtosPorReserva);
+
+        JTable produtosReserva = new JTable(modeloProdutos);
+        JScrollPane scrollSelecionados = new JScrollPane(produtosReserva);
+
+        produtosReserva.setShowGrid(true);
+        produtosReserva.setShowHorizontalLines(true);
+        produtosReserva.setShowVerticalLines(true);
+        produtosReserva.setGridColor(Color.BLACK);
+        produtosReserva.setIntercellSpacing(new Dimension(2, 2));
+
+        scrollSelecionados.setBounds(10, 370, 900, 300);
+        getContentPane().add(scrollSelecionados);
+
         carregarTabela();
 
     }
@@ -75,8 +112,6 @@ public class MinhasReservasView extends JFrame{
             JOptionPane.showMessageDialog(this, "Erro ao carregar tabela: " + erro.getMessage());
         }
     }
-
-
 
     static void main(String[] args) {
         LoginUsuarioModel usuarioFake = new LoginUsuarioModel();

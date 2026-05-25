@@ -114,8 +114,6 @@ public class RealizarReservaView extends JFrame{
         modeloSelecionados.addColumn("Descrição");
         modeloSelecionados.addColumn("Preço");
 
-
-
         tituloCarrinho.setBounds(10, 320, 300, 100);
         tituloCarrinho.setFont(new Font("Segoe UI", Font.BOLD, 20));
         getContentPane().add(tituloCarrinho);
