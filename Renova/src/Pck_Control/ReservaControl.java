@@ -19,5 +19,10 @@ public class ReservaControl {
         return persistencia.listarReservas(idUsuario);
     }
 
+    public ArrayList<ProdutoModel> listarProdutosPorReserva(int idReserva){
+        ReservaPersistencia persistencia = new ReservaPersistencia();
+        return persistencia.listarProdutosPorReserva(idReserva);
+    }
+
 
 }

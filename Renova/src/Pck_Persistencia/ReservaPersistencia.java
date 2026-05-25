@@ -155,4 +155,39 @@ public class ReservaPersistencia {
             }
         }
     }
+
+    public ArrayList<ProdutoModel> listarProdutosPorReserva(int idReserva) {
+        Connection conn = null;
+        CallableStatement stmt = null;
+        ResultSet resultSet = null;
+        String sql = "{CALL PROC_LISTAR_PRODUTOS_POR_RESERVA(?)}";
+        ArrayList<ProdutoModel> lista = new ArrayList<>();
+
+        try {
+            conn = ConexaoMySql.getConn(ConexaoMySql.login, ConexaoMySql.senha);
+            stmt = conn.prepareCall(sql);
+            stmt.setInt(1, idReserva);
+            resultSet = stmt.executeQuery();
+
+            while (resultSet.next()) {
+                ProdutoModel p = new ProdutoModel();
+                p.setIdProduto(resultSet.getInt("id_produto"));
+                p.setNomeProduto(resultSet.getString("nome_produto"));
+                p.setDescricao(resultSet.getString("descricao"));
+                p.setPreco(resultSet.getDouble("preco"));
+                lista.add(p);
+            }
+            return lista;
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao listar produtos da reserva: " + e.getMessage());
+        } finally {
+            try {
+                if (resultSet != null) resultSet.close();
+                if (stmt != null) stmt.close();
+                if (conn != null) new ConexaoMySql().desconectar();
+            } catch (SQLException e) {
+                System.out.println("Erro ao fechar conexão: " + e.getMessage());
+            }
+        }
+    }
 }

@@ -2,19 +2,27 @@ package Pck_View;
 
 import Pck_Control.ReservaControl;
 import Pck_Model.LoginUsuarioModel;
+import Pck_Model.ProdutoModel;
 import Pck_Model.ReservaModel;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 public class MinhasReservasView extends JFrame{
     LoginUsuarioModel usuarioLogado;
 
+    ProdutoModel produtoModel = new ProdutoModel();
+
     DefaultTableModel modelo = new DefaultTableModel();
     DefaultTableModel modeloProdutos = new DefaultTableModel();
     ReservaControl control = new ReservaControl();
+
+    JTable produtosReserva = new JTable(modeloProdutos);
+    JTable tabela = new JTable(modelo);
 
     JLabel labelBuscaId = new JLabel("Pesquisar por ID:");
     JTextField inputBuscaId = new JTextField();
@@ -27,21 +35,27 @@ public class MinhasReservasView extends JFrame{
 
         setTitle("Meus pedidos");
         setBounds(300, 0, 1000, 850);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         // define o layout absoluto
         getContentPane().setLayout(null);
 
         JLabel tituloPagina = new JLabel("Visualize seus pedidos");
         tituloPagina.setFont(new Font("Segoe UI", Font.BOLD, 25));
-
         tituloPagina.setBounds(10, 10, 300, 40);
         getContentPane().add(tituloPagina);
 
-        JTable tabela = new JTable(modelo);
+        JLabel subtituloPagina = new JLabel("Clique sobre o pedido para visualizar os produtos");
+        subtituloPagina.setFont(new Font("Segoe UI", Font.ITALIC, 14));
+        subtituloPagina.setForeground(Color.BLUE);
+        subtituloPagina.setBounds(10, 35, 800, 40);
+        getContentPane().add(subtituloPagina);
+
+
         modelo.addColumn("Código Reserva");
         modelo.addColumn("Total Reserva");
         modelo.addColumn("Método de pagamento");
-        modelo.addColumn("Data da reserva");
+        modelo.addColumn("Data/hora da reserva");
         modelo.addColumn("Data limite de retirada");
         modelo.addColumn("Status da reserva");
 
@@ -73,8 +87,14 @@ public class MinhasReservasView extends JFrame{
         produtosPorReserva.setBounds(10, 320, 300, 40);
         getContentPane().add(produtosPorReserva);
 
-        JTable produtosReserva = new JTable(modeloProdutos);
+
         JScrollPane scrollSelecionados = new JScrollPane(produtosReserva);
+
+        modeloProdutos.addColumn("Código Pedido");
+        modeloProdutos.addColumn("Código Produto");
+        modeloProdutos.addColumn("Nome");
+        modeloProdutos.addColumn("Descrição");
+        modeloProdutos.addColumn("Preço");
 
         produtosReserva.setShowGrid(true);
         produtosReserva.setShowHorizontalLines(true);
@@ -86,6 +106,7 @@ public class MinhasReservasView extends JFrame{
         getContentPane().add(scrollSelecionados);
 
         carregarTabela();
+        eventos();
 
     }
 
@@ -111,6 +132,52 @@ public class MinhasReservasView extends JFrame{
         } catch(Exception erro){
             JOptionPane.showMessageDialog(this, "Erro ao carregar tabela: " + erro.getMessage());
         }
+    }
+
+    // preenche a tabela inferior com os produtos vinculados à linha mestre clicada
+    private void carregarProdutosDaReserva(int idReserva) {
+        try {
+            modeloProdutos.setRowCount(0); // Limpa os detalhes anteriores
+            ArrayList<ProdutoModel> produtos = control.listarProdutosPorReserva(idReserva);
+
+            for (ProdutoModel p : produtos) {
+                modeloProdutos.addRow(new Object[]{
+                        idReserva,
+                        p.getIdProduto(),
+                        p.getNomeProduto(),
+                        p.getDescricao(),
+                        "R$ " + String.format("%.2f", p.getPreco())
+                });
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Erro ao carregar produtos do pedido: " + e.getMessage());
+        }
+    }
+
+    private void eventos() {
+
+        // GATILHO: detecta cliques na tabela de reservas superiores
+        tabela.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int linhaSelecionada = tabela.getSelectedRow();
+
+                if (linhaSelecionada >= 0) {
+                    // pega o valor da coluna 0 (código reserva) da linha clicada
+                    int idReservaClicada = (int) modelo.getValueAt(linhaSelecionada, 0);
+
+                    // chama o método para preencher a tabela de baixo
+                    carregarProdutosDaReserva(idReservaClicada);
+                }
+            }
+        });
+
+        // ação do botão de recarregar filtros
+        btnRecarregar.addActionListener(e -> {
+            inputBuscaId.setText("");
+            modeloProdutos.setRowCount(0);
+            carregarTabela();
+        });
     }
 
     static void main(String[] args) {
