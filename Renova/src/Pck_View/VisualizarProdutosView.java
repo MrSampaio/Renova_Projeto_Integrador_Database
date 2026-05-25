@@ -6,6 +6,7 @@ import Pck_Model.LoginUsuarioModel;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.util.ArrayList;
 
 public class VisualizarProdutosView extends JFrame{
@@ -57,6 +58,12 @@ public class VisualizarProdutosView extends JFrame{
         modelo.addColumn("Descrição");
         modelo.addColumn("Preço");
         modelo.addColumn("Status");
+
+        tabela.setShowGrid(true);
+        tabela.setShowHorizontalLines(true);
+        tabela.setShowVerticalLines(true);
+        tabela.setGridColor(Color.BLACK);
+        tabela.setIntercellSpacing(new Dimension(2, 2));
 
         JScrollPane painel = new JScrollPane(tabela);
         painel.setBounds(10, 50, 1000, 350);

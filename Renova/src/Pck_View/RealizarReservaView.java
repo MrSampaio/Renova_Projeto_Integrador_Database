@@ -74,6 +74,12 @@ public class RealizarReservaView extends JFrame{
         modelo.addColumn("Preço");
         modelo.addColumn("Status");
 
+        tabela.setShowGrid(true);
+        tabela.setShowHorizontalLines(true);
+        tabela.setShowVerticalLines(true);
+        tabela.setGridColor(Color.BLACK);
+        tabela.setIntercellSpacing(new Dimension(2, 2));
+
         JScrollPane painel = new JScrollPane(tabela);
         painel.setBounds(10, 70, 900, 150);
         getContentPane().add(painel);
@@ -108,6 +114,8 @@ public class RealizarReservaView extends JFrame{
         modeloSelecionados.addColumn("Descrição");
         modeloSelecionados.addColumn("Preço");
 
+
+
         tituloCarrinho.setBounds(10, 320, 300, 100);
         tituloCarrinho.setFont(new Font("Segoe UI", Font.BOLD, 20));
         getContentPane().add(tituloCarrinho);
@@ -118,6 +126,12 @@ public class RealizarReservaView extends JFrame{
 
         JTable produtosSelecionadosTabela = new JTable(modeloSelecionados);
         JScrollPane scrollSelecionados = new JScrollPane(produtosSelecionadosTabela);
+
+        produtosSelecionadosTabela.setShowGrid(true);
+        produtosSelecionadosTabela.setShowHorizontalLines(true);
+        produtosSelecionadosTabela.setShowVerticalLines(true);
+        produtosSelecionadosTabela.setGridColor(Color.BLACK);
+        produtosSelecionadosTabela.setIntercellSpacing(new Dimension(2, 2));
 
         scrollSelecionados.setBounds(10, 410, 900, 150);
         getContentPane().add(scrollSelecionados);

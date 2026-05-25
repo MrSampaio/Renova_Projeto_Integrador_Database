@@ -1,9 +1,7 @@
 package Pck_View;
 
-import Pck_Control.ProdutoControl;
 import Pck_Control.ReservaControl;
 import Pck_Model.LoginUsuarioModel;
-import Pck_Model.ProdutoModel;
 import Pck_Model.ReservaModel;
 
 import javax.swing.*;
@@ -47,7 +45,7 @@ public class MinhasReservasView extends JFrame{
         tabela.setShowGrid(true);
         tabela.setShowHorizontalLines(true);
         tabela.setShowVerticalLines(true);
-        tabela.setGridColor(Color.BLUE);
+        tabela.setGridColor(Color.BLACK);
         tabela.setIntercellSpacing(new Dimension(2, 2));
 
         carregarTabela();
