@@ -257,6 +257,7 @@ public class ReservaPersistencia {
         java.text.SimpleDateFormat formatoDataSimples = new java.text.SimpleDateFormat("dd/MM/yyyy");
 
         try {
+            ConexaoMySql conexaoBD = new ConexaoMySql();
             conn = ConexaoMySql.getConn(ConexaoMySql.login, ConexaoMySql.senha);
             stmt = conn.prepareCall(sql);
             ArrayList<ReservaModel> lista = new ArrayList<>();
@@ -303,6 +304,7 @@ public class ReservaPersistencia {
         java.text.SimpleDateFormat formatoDataSimples = new java.text.SimpleDateFormat("dd/MM/yyyy");
 
         try {
+            ConexaoMySql conexaoBD = new ConexaoMySql();
             conn = ConexaoMySql.getConn(ConexaoMySql.login, ConexaoMySql.senha);
             stmt = conn.prepareCall(sql);
             stmt.setInt(1, idReserva);
@@ -350,6 +352,7 @@ public class ReservaPersistencia {
         java.text.SimpleDateFormat formatoDataSimples = new java.text.SimpleDateFormat("dd/MM/yyyy");
 
         try {
+            ConexaoMySql conexaoBD = new ConexaoMySql();
             conn = ConexaoMySql.getConn(ConexaoMySql.login, ConexaoMySql.senha);
             stmt = conn.prepareCall(sql);
             stmt.setString(1, nomeCliente);
@@ -393,6 +396,7 @@ public class ReservaPersistencia {
         String sql = "{CALL PROC_ATUALIZAR_STATUS_RESERVA(?, ?)}";
 
         try {
+            ConexaoMySql conexaoBD = new ConexaoMySql();
             conn = ConexaoMySql.getConn(ConexaoMySql.login, ConexaoMySql.senha);
             stmt = conn.prepareCall(sql);
             stmt.setInt(1, idReserva);

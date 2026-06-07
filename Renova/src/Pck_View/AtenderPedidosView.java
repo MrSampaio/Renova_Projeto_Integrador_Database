@@ -60,8 +60,9 @@ public class AtenderPedidosView extends JFrame {
         subtituloPagina.setBounds(10, 35, 800, 40);
         getContentPane().add(subtituloPagina);
 
-        // --- TABELA 1: RESERVAS GERAIS ---
+        // --- TABELA 1: RESERVAS GERAIS (Agora com NOME DO CLIENTE) ---
         modeloReservas.addColumn("Código Reserva");
+        modeloReservas.addColumn("Nome do Cliente"); // COLUNA NOVA
         modeloReservas.addColumn("Total Reserva");
         modeloReservas.addColumn("Método Pagamento");
         modeloReservas.addColumn("Data/hora");
@@ -95,13 +96,13 @@ public class AtenderPedidosView extends JFrame {
         // --- SEÇÃO DE AÇÕES DO FUNCIONÁRIO ---
         btnConcluir.setBounds(630, 270, 160, 40);
         btnConcluir.setBackground(new Color(40, 167, 69)); // Verde
-        btnConcluir.setForeground(Color.WHITE);
+        btnConcluir.setForeground(Color.BLACK);
         btnConcluir.setFocusPainted(false);
         getContentPane().add(btnConcluir);
 
         btnCancelar.setBounds(810, 270, 160, 40);
         btnCancelar.setBackground(new Color(220, 53, 69)); // Vermelho
-        btnCancelar.setForeground(Color.WHITE);
+        btnCancelar.setForeground(Color.BLACK);
         btnCancelar.setFocusPainted(false);
         getContentPane().add(btnCancelar);
 
@@ -131,22 +132,22 @@ public class AtenderPedidosView extends JFrame {
         eventos();
     }
 
+    // Carrega TODAS as reservas (Nova implementação)
     private void carregarTabela() {
         try {
             modeloReservas.setRowCount(0);
 
-            // FUTURO BACKEND: O funcionário deve ver TODAS as reservas do banco, não apenas as dele.
-            // Para testar a tela agora, estamos chamando a listagem passando o ID dele (provisório)
-            ArrayList<ReservaModel> lista = control.listarReservas(usuarioLogado.getIdUsuario());
+            ArrayList<ReservaModel> lista = control.listarTodasReservas();
 
             for (ReservaModel reserva : lista) {
                 modeloReservas.addRow(new Object[]{
                         reserva.getIdReserva(),
+                        reserva.getNomeCliente() != null ? reserva.getNomeCliente() : "Desconhecido",
                         "R$ " + String.format("%.2f", reserva.getTotalReserva()),
-                        reserva.getMetodoPagamento(),
-                        reserva.getDataReserva(),
-                        reserva.getDataValidade(),
-                        reserva.getStatusReserva()
+                        reserva.getMetodoPagamento() != null ? reserva.getMetodoPagamento() : "N/A",
+                        reserva.getDataReserva() != null ? reserva.getDataReserva() : "Sem data",
+                        reserva.getDataValidade() != null ? reserva.getDataValidade() : "Sem limite",
+                        reserva.getStatusReserva() != null ? reserva.getStatusReserva() : "Indefinido"
                 });
             }
         } catch (Exception erro) {
@@ -174,7 +175,6 @@ public class AtenderPedidosView extends JFrame {
     }
 
     private void eventos() {
-        // Gatilho: Ao clicar em uma reserva, mostra os itens embaixo
         tabelaReservas.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -186,12 +186,73 @@ public class AtenderPedidosView extends JFrame {
             }
         });
 
-        // Ação: Botão Concluir
+        btnBuscaId.addActionListener(e -> {
+            String idDigitado = inputBuscaId.getText();
+            try {
+                int idBusca = Integer.parseInt(idDigitado);
+                ReservaModel reserva = control.buscarReservaGeralPorId(idBusca);
+
+                modeloReservas.setRowCount(0);
+                modeloProdutos.setRowCount(0);
+
+                if (reserva != null) {
+                    modeloReservas.addRow(new Object[]{
+                            reserva.getIdReserva(),
+                            reserva.getNomeCliente() != null ? reserva.getNomeCliente() : "Desconhecido",
+                            "R$ " + String.format("%.2f", reserva.getTotalReserva()),
+                            reserva.getMetodoPagamento() != null ? reserva.getMetodoPagamento() : "N/A",
+                            reserva.getDataReserva() != null ? reserva.getDataReserva() : "Sem data",
+                            reserva.getDataValidade() != null ? reserva.getDataValidade() : "Sem limite",
+                            reserva.getStatusReserva() != null ? reserva.getStatusReserva() : "Indefinido"
+                    });
+                }else {
+                    JOptionPane.showMessageDialog(this, "Nenhuma reserva encontrada com o ID " + idBusca, "Aviso", JOptionPane.WARNING_MESSAGE);
+                    carregarTabela();
+                }
+            } catch (NumberFormatException erro) {
+                JOptionPane.showMessageDialog(this, "Digite um ID numérico válido.", "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        btnBuscaNome.addActionListener(e -> {
+            String nomeDigitado = inputBuscaNome.getText();
+            if (nomeDigitado.trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Digite um nome para buscar.", "Aviso", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            try {
+                ArrayList<ReservaModel> lista = control.buscarReservaPorNomeCliente(nomeDigitado);
+
+                modeloReservas.setRowCount(0);
+                modeloProdutos.setRowCount(0);
+
+                if (!lista.isEmpty()) {
+                    for (ReservaModel reserva : lista) {
+                        modeloReservas.addRow(new Object[]{
+                                reserva.getIdReserva(),
+                                reserva.getNomeCliente(),
+                                "R$ " + String.format("%.2f", reserva.getTotalReserva()),
+                                reserva.getMetodoPagamento(),
+                                reserva.getDataReserva(),
+                                reserva.getDataValidade(),
+                                reserva.getStatusReserva()
+                        });
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this, "Nenhuma reserva encontrada para o cliente: " + nomeDigitado, "Aviso", JOptionPane.WARNING_MESSAGE);
+                    carregarTabela();
+                }
+            } catch (Exception erro) {
+                JOptionPane.showMessageDialog(this, "Erro ao buscar: " + erro.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
         btnConcluir.addActionListener(e -> {
             int linhaSelecionada = tabelaReservas.getSelectedRow();
             if (linhaSelecionada >= 0) {
                 int idReserva = (int) modeloReservas.getValueAt(linhaSelecionada, 0);
-                String statusAtual = (String) modeloReservas.getValueAt(linhaSelecionada, 5);
+                String statusAtual = (String) modeloReservas.getValueAt(linhaSelecionada, 6); // Agora é a coluna 6 (adicionamos nome)
 
                 if (statusAtual.equalsIgnoreCase("Concluída") || statusAtual.equalsIgnoreCase("Cancelada")) {
                     JOptionPane.showMessageDialog(this, "Este pedido já está fechado e não pode ser alterado.", "Aviso", JOptionPane.WARNING_MESSAGE);
@@ -200,8 +261,8 @@ public class AtenderPedidosView extends JFrame {
 
                 int confirmacao = JOptionPane.showConfirmDialog(this, "Tem certeza que deseja marcar o pedido #" + idReserva + " como CONCLUÍDO?", "Confirmar", JOptionPane.YES_NO_OPTION);
                 if (confirmacao == JOptionPane.YES_OPTION) {
-                    // FUTURO BACKEND: control.atualizarStatusReserva(idReserva, "Concluída");
-                    JOptionPane.showMessageDialog(this, "[Simulação] Status alterado para Concluído com sucesso!");
+                    control.atualizarStatusReserva(idReserva, "Concluída");
+                    JOptionPane.showMessageDialog(this, "Status alterado para Concluído com sucesso!");
                     carregarTabela();
                 }
             } else {
@@ -209,12 +270,11 @@ public class AtenderPedidosView extends JFrame {
             }
         });
 
-        // Ação: Botão Cancelar
         btnCancelar.addActionListener(e -> {
             int linhaSelecionada = tabelaReservas.getSelectedRow();
             if (linhaSelecionada >= 0) {
                 int idReserva = (int) modeloReservas.getValueAt(linhaSelecionada, 0);
-                String statusAtual = (String) modeloReservas.getValueAt(linhaSelecionada, 5);
+                String statusAtual = (String) modeloReservas.getValueAt(linhaSelecionada, 6); // Agora é a coluna 6
 
                 if (statusAtual.equalsIgnoreCase("Concluída") || statusAtual.equalsIgnoreCase("Cancelada")) {
                     JOptionPane.showMessageDialog(this, "Este pedido já está fechado e não pode ser alterado.", "Aviso", JOptionPane.WARNING_MESSAGE);
@@ -223,9 +283,10 @@ public class AtenderPedidosView extends JFrame {
 
                 int confirmacao = JOptionPane.showConfirmDialog(this, "Atenção: Cancelar o pedido #" + idReserva + " fará os produtos voltarem ao estoque.\nConfirma o cancelamento?", "Cancelar Pedido", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
                 if (confirmacao == JOptionPane.YES_OPTION) {
-                    // FUTURO BACKEND: control.atualizarStatusReserva(idReserva, "Cancelada");
-                    JOptionPane.showMessageDialog(this, "[Simulação] Pedido cancelado e itens devolvidos ao estoque!");
+                    control.atualizarStatusReserva(idReserva, "Cancelada");
+                    JOptionPane.showMessageDialog(this, "Pedido cancelado e itens devolvidos ao estoque!");
                     carregarTabela();
+                    modeloProdutos.setRowCount(0); // Limpa a tabela de baixo pois o pedido foi cancelado
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "Selecione um pedido na tabela primeiro.", "Aviso", JOptionPane.WARNING_MESSAGE);
