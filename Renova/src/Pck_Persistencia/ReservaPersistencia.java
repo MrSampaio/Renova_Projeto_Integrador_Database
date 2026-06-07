@@ -245,4 +245,169 @@ public class ReservaPersistencia {
             }
         }
     }
+
+    // LISTAR TODAS AS RESERVAS
+    public ArrayList<ReservaModel> listarTodasReservas() {
+        Connection conn = null;
+        CallableStatement stmt = null;
+        ResultSet resultSet = null;
+        String sql = "{CALL PROC_LISTAR_TODAS_RESERVAS()}";
+
+        java.text.SimpleDateFormat formatoDataHora = new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        java.text.SimpleDateFormat formatoDataSimples = new java.text.SimpleDateFormat("dd/MM/yyyy");
+
+        try {
+            conn = ConexaoMySql.getConn(ConexaoMySql.login, ConexaoMySql.senha);
+            stmt = conn.prepareCall(sql);
+            ArrayList<ReservaModel> lista = new ArrayList<>();
+            resultSet = stmt.executeQuery();
+
+            while (resultSet.next()) {
+                ReservaModel reserva = new ReservaModel();
+                reserva.setIdReserva(resultSet.getInt("id_reserva"));
+                reserva.setNomeCliente(resultSet.getString("nome_cliente")); // Campo novo!
+                reserva.setTotalReserva(resultSet.getDouble("total_reserva"));
+                reserva.setMetodoPagamento(resultSet.getString("metodo_pagamento"));
+
+                java.sql.Timestamp tsReserva = resultSet.getTimestamp("data_reserva");
+                if (tsReserva != null) reserva.setDataReserva(formatoDataHora.format(tsReserva));
+
+                java.sql.Date dtValidade = resultSet.getDate("data_validade");
+                if (dtValidade != null) reserva.setDataValidade(formatoDataSimples.format(dtValidade));
+
+                reserva.setStatusReserva(resultSet.getString("status_reserva"));
+                lista.add(reserva);
+            }
+            return lista;
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao listar todas as reservas: " + e.getMessage());
+        } finally {
+            try {
+                if (resultSet != null) resultSet.close();
+                if (stmt != null) stmt.close();
+                if (conn != null) new ConexaoMySql().desconectar();
+            } catch (SQLException e) {
+                System.out.println("Erro ao fechar conexão: " + e.getMessage());
+            }
+        }
+    }
+
+    // BUSCAR RESERVA GERAL POR ID
+    public ReservaModel buscarReservaGeralPorId(int idReserva) {
+        Connection conn = null;
+        CallableStatement stmt = null;
+        ResultSet resultSet = null;
+        String sql = "{CALL PROC_BUSCAR_RESERVA_GERAL_POR_ID(?)}";
+
+        java.text.SimpleDateFormat formatoDataHora = new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        java.text.SimpleDateFormat formatoDataSimples = new java.text.SimpleDateFormat("dd/MM/yyyy");
+
+        try {
+            conn = ConexaoMySql.getConn(ConexaoMySql.login, ConexaoMySql.senha);
+            stmt = conn.prepareCall(sql);
+            stmt.setInt(1, idReserva);
+            resultSet = stmt.executeQuery();
+
+            if (resultSet.next()) {
+                ReservaModel reserva = new ReservaModel();
+                reserva.setIdReserva(resultSet.getInt("id_reserva"));
+                reserva.setNomeCliente(resultSet.getString("nome_cliente")); // Campo novo!
+                reserva.setTotalReserva(resultSet.getDouble("total_reserva"));
+                reserva.setMetodoPagamento(resultSet.getString("metodo_pagamento"));
+
+                java.sql.Timestamp tsReserva = resultSet.getTimestamp("data_reserva");
+                if (tsReserva != null) reserva.setDataReserva(formatoDataHora.format(tsReserva));
+
+                java.sql.Date dtValidade = resultSet.getDate("data_validade");
+                if (dtValidade != null) reserva.setDataValidade(formatoDataSimples.format(dtValidade));
+
+                reserva.setStatusReserva(resultSet.getString("status_reserva"));
+                return reserva;
+            } else {
+                return null;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar reserva geral por ID: " + e.getMessage());
+        } finally {
+            try {
+                if (resultSet != null) resultSet.close();
+                if (stmt != null) stmt.close();
+                if (conn != null) new ConexaoMySql().desconectar();
+            } catch (SQLException e) {
+                System.out.println("Erro ao fechar conexão: " + e.getMessage());
+            }
+        }
+    }
+
+    // BUSCAR RESERVAS POR NOME DO CLIENTE
+    public ArrayList<ReservaModel> buscarReservaPorNomeCliente(String nomeCliente) {
+        Connection conn = null;
+        CallableStatement stmt = null;
+        ResultSet resultSet = null;
+        String sql = "{CALL PROC_BUSCAR_RESERVA_POR_NOME_CLIENTE(?)}";
+
+        java.text.SimpleDateFormat formatoDataHora = new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        java.text.SimpleDateFormat formatoDataSimples = new java.text.SimpleDateFormat("dd/MM/yyyy");
+
+        try {
+            conn = ConexaoMySql.getConn(ConexaoMySql.login, ConexaoMySql.senha);
+            stmt = conn.prepareCall(sql);
+            stmt.setString(1, nomeCliente);
+            ArrayList<ReservaModel> lista = new ArrayList<>();
+            resultSet = stmt.executeQuery();
+
+            while (resultSet.next()) {
+                ReservaModel reserva = new ReservaModel();
+                reserva.setIdReserva(resultSet.getInt("id_reserva"));
+                reserva.setNomeCliente(resultSet.getString("nome_cliente")); // Campo novo!
+                reserva.setTotalReserva(resultSet.getDouble("total_reserva"));
+                reserva.setMetodoPagamento(resultSet.getString("metodo_pagamento"));
+
+                java.sql.Timestamp tsReserva = resultSet.getTimestamp("data_reserva");
+                if (tsReserva != null) reserva.setDataReserva(formatoDataHora.format(tsReserva));
+
+                java.sql.Date dtValidade = resultSet.getDate("data_validade");
+                if (dtValidade != null) reserva.setDataValidade(formatoDataSimples.format(dtValidade));
+
+                reserva.setStatusReserva(resultSet.getString("status_reserva"));
+                lista.add(reserva);
+            }
+            return lista;
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar reservas por nome: " + e.getMessage());
+        } finally {
+            try {
+                if (resultSet != null) resultSet.close();
+                if (stmt != null) stmt.close();
+                if (conn != null) new ConexaoMySql().desconectar();
+            } catch (SQLException e) {
+                System.out.println("Erro ao fechar conexão: " + e.getMessage());
+            }
+        }
+    }
+
+    // 4. ATUALIZAR STATUS DA RESERVA
+    public void atualizarStatusReserva(int idReserva, String novoStatus) {
+        Connection conn = null;
+        CallableStatement stmt = null;
+        String sql = "{CALL PROC_ATUALIZAR_STATUS_RESERVA(?, ?)}";
+
+        try {
+            conn = ConexaoMySql.getConn(ConexaoMySql.login, ConexaoMySql.senha);
+            stmt = conn.prepareCall(sql);
+            stmt.setInt(1, idReserva);
+            stmt.setString(2, novoStatus);
+
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao atualizar status da reserva: " + e.getMessage());
+        } finally {
+            try {
+                if (stmt != null) stmt.close();
+                if (conn != null) new ConexaoMySql().desconectar();
+            } catch (SQLException e) {
+                System.out.println("Erro ao fechar conexão: " + e.getMessage());
+            }
+        }
+    }
 }

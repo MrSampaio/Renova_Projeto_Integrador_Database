@@ -7,6 +7,7 @@ public class ReservaModel {
     private String dataReserva;
     private String dataValidade;
     private String statusReserva;
+    private String nomeCliente;
 
     public int getIdReserva() {
         return idReserva;
@@ -80,5 +81,13 @@ public class ReservaModel {
         } else{
             this.statusReserva = statusReserva;
         }
+    }
+
+    public String getNomeCliente() {
+        return nomeCliente;
+    }
+
+    public void setNomeCliente(String nomeCliente) {
+        this.nomeCliente = nomeCliente;
     }
 }
