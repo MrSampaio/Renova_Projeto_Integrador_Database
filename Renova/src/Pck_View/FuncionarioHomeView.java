@@ -19,6 +19,9 @@ public class FuncionarioHomeView extends JFrame {
 
         setTitle("Painel do Funcionário - " + usuario.getNome());
         setBounds(100, 100, 800, 700);
+        getContentPane().setBackground(new Color(243, 236, 208));
+        getContentPane().setLayout(new GridBagLayout());
+
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -41,7 +44,7 @@ public class FuncionarioHomeView extends JFrame {
         getContentPane().add(btnProdutos);
 
         btnVerificarPedido.setBounds(xCentro, 230, larguraBotao, alturaBotao);
-        getContentPane().add(btnVerificarPedido);
+        //getContentPane().add(btnVerificarPedido);
 
         btnAtenderPedido.setBounds(xCentro, 300, larguraBotao, alturaBotao);
         getContentPane().add(btnAtenderPedido);
@@ -71,13 +74,13 @@ public class FuncionarioHomeView extends JFrame {
         });
 
         btnAtenderPedido.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this, "Em breve: Tela de Atender Pedidos");
-            // new AtenderPedidoView(usuarioLogado).setVisible(true);
+            //JOptionPane.showMessageDialog(this, "Em breve: Tela de Atender Pedidos");
+            new AtenderPedidosView(usuarioLogado).setVisible(true);
         });
 
         btnCadastrarFuncionario.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this, "Em breve: Tela de Cadastro de Funcionário");
-            // new CadastrarFuncionarioView().setVisible(true);
+            //JOptionPane.showMessageDialog(this, "Em breve: Tela de Cadastro de Funcionário");
+            new CadastroFuncionarioView().setVisible(true);
         });
 
         btnLogout.addActionListener(e -> {

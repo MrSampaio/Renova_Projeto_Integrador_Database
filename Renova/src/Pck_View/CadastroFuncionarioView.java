@@ -3,10 +3,7 @@ package Pck_View;
 import Pck_Control.CadastroUsuarioControl;
 
 import javax.swing.*;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.Dimension;
+import java.awt.*;
 
 public class CadastroFuncionarioView extends JFrame{
 
@@ -28,6 +25,10 @@ public class CadastroFuncionarioView extends JFrame{
 
         // objeto que adiciona as restrições pra controlar a posição dos elementos
         GridBagConstraints gbc = new GridBagConstraints();
+
+        getContentPane().setBackground(new Color(243, 236, 208));
+        getContentPane().setLayout(new GridBagLayout());
+
 
         // faz com que todos os elementos fiquem na mesma coluna, nesse caso a 0
         gbc.gridx = 0;
@@ -149,7 +150,6 @@ public class CadastroFuncionarioView extends JFrame{
         });
 
         voltarBtn.addActionListener(e ->{
-            new LoginView().setVisible(true);
             dispose();
         });
     }

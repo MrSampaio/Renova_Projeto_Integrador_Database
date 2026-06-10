@@ -1,0 +1,13 @@
+package Pck_Control;
+import Pck_Model.AgendaModel;
+
+public class AgendaControl {
+    AgendaModel agendaModel = new AgendaModel();
+
+    public void insertAgenda(String texto){
+        agendaModel.setText(texto);
+        System.out.println("Chegou a parada: " + agendaModel.getText());
+
+    }
+}
+

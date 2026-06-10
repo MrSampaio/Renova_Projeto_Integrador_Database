@@ -51,8 +51,13 @@ public class RealizarReservaView extends JFrame{
         setTitle("Realizar novo pedido");
         setBounds(300, 0, 1000, 850);
 
+        getContentPane().setBackground(new Color(243, 236, 208));
+        getContentPane().setLayout(new GridBagLayout());
+
         // define o layout absoluto
         getContentPane().setLayout(null);
+
+
 
         JLabel tituloPagina = new JLabel("Realize sua reserva!");
         tituloPagina.setFont(new Font("Segoe UI", Font.BOLD, 25));

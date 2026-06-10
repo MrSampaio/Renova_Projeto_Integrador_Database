@@ -48,6 +48,10 @@ public class VisualizarProdutosView extends JFrame{
         setTitle("Visualizar Produto");
         setBounds(100, 100, 1200, 700);
 
+        getContentPane().setBackground(new Color(243, 236, 208));
+        getContentPane().setLayout(new GridBagLayout());
+
+
         // define o layout absoluto
         getContentPane().setLayout(null);
 

@@ -254,6 +254,110 @@ END //
 
 DELIMITER ;
 
+DELIMITER //
+
+CREATE PROCEDURE PROC_LISTAR_TODAS_RESERVAS()
+BEGIN
+    SELECT
+        r.id_reserva,
+        u.nome AS nome_cliente,
+        r.total_reserva,
+        r.metodo_pagamento,
+        r.data_reserva,
+        r.data_validade,
+        r.status_reserva
+    FROM
+        reserva r
+    INNER JOIN
+        usuario u ON r.id_usuario = u.id_usuario
+    ORDER BY
+        r.data_reserva DESC;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE PROC_BUSCAR_RESERVA_GERAL_POR_ID(
+    IN p_id_reserva INT
+)
+BEGIN
+    SELECT
+        r.id_reserva,
+        u.nome AS nome_cliente,
+        r.total_reserva,
+        r.metodo_pagamento,
+        r.data_reserva,
+        r.data_validade,
+        r.status_reserva
+    FROM
+        reserva r
+    INNER JOIN
+        usuario u ON r.id_usuario = u.id_usuario
+    WHERE
+        r.id_reserva = p_id_reserva;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE PROC_BUSCAR_RESERVA_POR_NOME_CLIENTE(
+    IN p_nome_cliente VARCHAR(100)
+)
+BEGIN
+    SELECT
+        r.id_reserva,
+        u.nome AS nome_cliente,
+        r.total_reserva,
+        r.metodo_pagamento,
+        r.data_reserva,
+        r.data_validade,
+        r.status_reserva
+    FROM
+        reserva r
+    INNER JOIN
+        usuario u ON r.id_usuario = u.id_usuario
+    WHERE
+        u.nome LIKE CONCAT('%', p_nome_cliente, '%')
+    ORDER BY
+        r.data_reserva DESC;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE PROC_ATUALIZAR_STATUS_RESERVA(
+    IN p_id_reserva INT,
+    IN p_novo_status VARCHAR(50)
+)
+BEGIN
+    -- 1. Atualiza o status da reserva principal
+    UPDATE reserva
+    SET status_reserva = p_novo_status
+    WHERE id_reserva = p_id_reserva;
+
+    -- 2. Se a reserva for CANCELADA, os produtos voltam a ficar Disponíveis
+    IF p_novo_status = 'Cancelada' THEN
+        UPDATE produto p
+        INNER JOIN itens_reserva ir ON p.id_produto = ir.id_produto
+        SET p.status = 'Disponível'
+        WHERE ir.id_reserva = p_id_reserva;
+    END IF;
+
+    -- 3. Se a reserva for CONCLUÍDA, os produtos passam definitivamente para Vendidos
+    IF p_novo_status = 'Concluída' THEN
+        UPDATE produto p
+        INNER JOIN itens_reserva ir ON p.id_produto = ir.id_produto
+        SET p.status = 'Vendido'
+        WHERE ir.id_reserva = p_id_reserva;
+    END IF;
+
+END //
+
+DELIMITER ;
+
 SELECT * FROM renova.usuario;
 SELECT * FROM renova.produto;
 
@@ -303,4 +407,3 @@ INSERT INTO produto (nome_produto, descricao, preco, status) VALUES
 
 INSERT INTO usuario (nome, telefone, email, senha, tipo_usuario)
 VALUES ('Funcionário Padrão', '11999999999', 'funcionario1@gmail.com', '12345', 'FUNCIONARIO');
-

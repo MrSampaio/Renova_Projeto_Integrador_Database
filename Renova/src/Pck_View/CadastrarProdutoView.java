@@ -21,6 +21,10 @@ public class CadastrarProdutoView extends JFrame{
         setTitle("Cadastrar produto");
         setBounds(100, 100, 800, 700);
 
+        getContentPane().setBackground(new Color(243, 236, 208));
+        getContentPane().setLayout(new GridBagLayout());
+
+
         // o GridBagLayout centraliza os elementos automaticamente
         getContentPane().setLayout(new GridBagLayout());
 

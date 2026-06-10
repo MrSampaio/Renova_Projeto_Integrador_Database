@@ -15,7 +15,7 @@ public class ConexaoMySql {
 
     private static final String URL = "jdbc:mysql://localhost:3306/renova";
     public static final String login = "root";
-    public static final String senha = "Root1234";
+    public static final String senha = "root1234";
 
     public ConexaoMySql(){
         this.sDriver = "com.mysql.cj.jdbc.Driver";
@@ -36,7 +36,7 @@ public class ConexaoMySql {
             throw new SQLException(error, e);
 
         } catch (SQLException e){
-            String error = "Erro ao obter conexao";
+            String error = "Erro ao obter conexao :" + e;
             throw new SQLException(error, e);
         }
     }

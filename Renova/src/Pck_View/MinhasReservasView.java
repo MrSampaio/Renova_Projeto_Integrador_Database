@@ -39,8 +39,13 @@ public class MinhasReservasView extends JFrame{
         setBounds(300, 0, 1000, 850);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
+        getContentPane().setBackground(new Color(243, 236, 208));
+        getContentPane().setLayout(new GridBagLayout());
+
         // define o layout absoluto
         getContentPane().setLayout(null);
+
+
 
         JLabel tituloPagina = new JLabel("Visualize seus pedidos");
         tituloPagina.setFont(new Font("Segoe UI", Font.BOLD, 25));

@@ -22,6 +22,9 @@ public class ClienteHomeView extends JFrame{
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        getContentPane().setBackground(new Color(243, 236, 208));
+        getContentPane().setLayout(new GridBagLayout());
+
         getContentPane().setLayout(null);
 
         JLabel labelBemVindo = new JLabel("Bem-vindo(a), " + usuario.getNome() + "!", SwingConstants.CENTER);

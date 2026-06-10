@@ -23,7 +23,7 @@ public class LoginView extends JFrame{
         setTitle("Bem-Vindo(a) ao Renova!");
         setBounds(100, 100, 800, 700);
 
-        getContentPane().setBackground(new Color(199, 255, 235));
+        getContentPane().setBackground(new Color(243, 236, 208));
         getContentPane().setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();

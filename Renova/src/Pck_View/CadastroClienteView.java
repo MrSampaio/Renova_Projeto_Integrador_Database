@@ -25,6 +25,10 @@ public class CadastroClienteView extends JFrame {
         // objeto que adiciona as restrições pra controlar a posição dos elementos
         GridBagConstraints gbc = new GridBagConstraints();
 
+        getContentPane().setBackground(new Color(243, 236, 208));
+        getContentPane().setLayout(new GridBagLayout());
+
+
         // faz com que todos os elementos fiquem na mesma coluna, nesse caso a 0
         gbc.gridx = 0;
 
