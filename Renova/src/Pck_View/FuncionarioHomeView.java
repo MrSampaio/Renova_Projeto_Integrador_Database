@@ -7,7 +7,7 @@ import java.awt.*;
 public class FuncionarioHomeView extends JFrame {
 
     JButton btnProdutos = new JButton("Área de Produtos");
-    JButton btnVerificarPedido = new JButton("Verificar Pedidos");
+    JButton btnCadastrarProduto = new JButton("Cadastrar Produto");
     JButton btnAtenderPedido = new JButton("Atender Pedidos");
     JButton btnCadastrarFuncionario = new JButton("Cadastrar Novo Funcionário");
     JButton btnLogout = new JButton("Sair / Logout");
@@ -22,37 +22,36 @@ public class FuncionarioHomeView extends JFrame {
         getContentPane().setBackground(new Color(243, 236, 208));
         getContentPane().setLayout(new GridBagLayout());
 
-
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         getContentPane().setLayout(null);
 
         JLabel labelBemVindo = new JLabel("Bem-vindo(a), " + usuario.getNome() + "!", SwingConstants.CENTER);
         labelBemVindo.setFont(new Font("Arial", Font.BOLD, 22));
-        labelBemVindo.setBounds(0, 50, 800, 30);
+        labelBemVindo.setBounds(0, 80, 800, 30);
         getContentPane().add(labelBemVindo);
 
         JLabel labelSubtitulo = new JLabel("Selecione uma opção no menu abaixo:", SwingConstants.CENTER);
-        labelSubtitulo.setBounds(0, 90, 800, 20);
+        labelSubtitulo.setBounds(0, 120, 800, 20);
         getContentPane().add(labelSubtitulo);
 
         int xCentro = 250;
         int larguraBotao = 300;
         int alturaBotao = 45;
 
-        btnProdutos.setBounds(xCentro, 160, larguraBotao, alturaBotao);
+        btnProdutos.setBounds(xCentro, 230, larguraBotao, alturaBotao);
         getContentPane().add(btnProdutos);
 
-        btnVerificarPedido.setBounds(xCentro, 230, larguraBotao, alturaBotao);
-        //getContentPane().add(btnVerificarPedido);
+        btnCadastrarProduto.setBounds(xCentro, 300, larguraBotao, alturaBotao);
+        getContentPane().add(btnCadastrarProduto);
 
-        btnAtenderPedido.setBounds(xCentro, 300, larguraBotao, alturaBotao);
+        btnAtenderPedido.setBounds(xCentro, 370, larguraBotao, alturaBotao);
         getContentPane().add(btnAtenderPedido);
 
-        btnCadastrarFuncionario.setBounds(xCentro, 370, larguraBotao, alturaBotao);
+        btnCadastrarFuncionario.setBounds(xCentro, 440, larguraBotao, alturaBotao);
         getContentPane().add(btnCadastrarFuncionario);
 
-        btnLogout.setBounds(xCentro, 480, larguraBotao, alturaBotao);
+        btnLogout.setBounds(xCentro, 550, larguraBotao, alturaBotao);
         btnLogout.setForeground(Color.RED);
         getContentPane().add(btnLogout);
 
@@ -66,11 +65,6 @@ public class FuncionarioHomeView extends JFrame {
             new VisualizarProdutosView(usuarioLogado).setVisible(true);
 
             dispose();
-        });
-
-        btnVerificarPedido.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this, "Em breve: Tela de Verificar Pedidos");
-            // new VerificarPedidoView(usuarioLogado).setVisible(true);
         });
 
         btnAtenderPedido.addActionListener(e -> {
@@ -94,6 +88,10 @@ public class FuncionarioHomeView extends JFrame {
                 dispose();
                 new LoginView().setVisible(true);
             }
+        });
+
+        btnCadastrarProduto.addActionListener(e ->{
+            new CadastrarProdutoView().setVisible(true);
         });
     }
 

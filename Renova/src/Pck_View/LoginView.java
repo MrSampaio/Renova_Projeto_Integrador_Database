@@ -21,7 +21,7 @@ public class LoginView extends JFrame{
 
     public LoginView(){
         setTitle("Bem-Vindo(a) ao Renova!");
-        setBounds(100, 100, 800, 700);
+        setBounds(150, 50, 1000, 900);
 
         getContentPane().setBackground(new Color(243, 236, 208));
         getContentPane().setLayout(new GridBagLayout());
@@ -34,7 +34,7 @@ public class LoginView extends JFrame{
 
         if (imgUrl != null) {
             ImageIcon iconeOriginal = new ImageIcon(imgUrl);
-            Image imagemRedimensionada = iconeOriginal.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+            Image imagemRedimensionada = iconeOriginal.getImage().getScaledInstance(400, 250, Image.SCALE_SMOOTH);
             ImageIcon iconeFinal = new ImageIcon(imagemRedimensionada);
 
             JLabel labelImagem = new JLabel(iconeFinal);
@@ -45,7 +45,7 @@ public class LoginView extends JFrame{
             System.err.println("Aviso: Imagem /imgs/logo.png não encontrada!");
         }
 
-        gbc.insets = new Insets(30, 0, 10, 0);
+        gbc.insets = new Insets(0, 0, 10, 0);
 
         JLabel tituloPagina = new JLabel("Faça seu login");
         tituloPagina.setFont(new Font("Segoe UI", Font.BOLD, 25));
@@ -139,5 +139,9 @@ public class LoginView extends JFrame{
             new CadastroClienteView().setVisible(true);
             dispose();
         });
+    }
+
+    public static void main(String[] args) {
+        new LoginView().setVisible(true);
     }
 }
