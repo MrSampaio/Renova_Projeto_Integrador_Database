@@ -11,7 +11,7 @@ CREATE TABLE usuario (
     tipo_usuario ENUM('CLIENTE', 'FUNCIONARIO') DEFAULT 'CLIENTE' NOT NULL
 );
 
-CREATE TABLE produtos (
+CREATE TABLE produto (
     id_produto INT AUTO_INCREMENT PRIMARY KEY,
     nome_produto VARCHAR(100) NOT NULL,
     descricao VARCHAR(150) NOT NULL,
