@@ -2,7 +2,7 @@ CREATE DATABASE IF NOT EXISTS renova;
 
 USE renova;
 
-CREATE TABLE usuario (
+CREATE TABLE usuarios (
     id_usuario INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
     telefone CHAR(11),
@@ -11,7 +11,7 @@ CREATE TABLE usuario (
     tipo_usuario ENUM('CLIENTE', 'FUNCIONARIO') DEFAULT 'CLIENTE' NOT NULL
 );
 
-CREATE TABLE produto (
+CREATE TABLE produtos (
     id_produto INT AUTO_INCREMENT PRIMARY KEY,
     nome_produto VARCHAR(100) NOT NULL,
     descricao VARCHAR(150) NOT NULL,
@@ -19,7 +19,7 @@ CREATE TABLE produto (
     status ENUM('Disponível', 'Reservado', 'Vendido') DEFAULT 'Disponível'
 );
 
-CREATE TABLE reserva (
+CREATE TABLE reservas (
     id_reserva INT AUTO_INCREMENT PRIMARY KEY,
     id_usuario INT NOT NULL,
     total_reserva DECIMAL(10, 2) NOT NULL,
@@ -27,20 +27,20 @@ CREATE TABLE reserva (
     data_reserva DATETIME DEFAULT CURRENT_TIMESTAMP,
     data_validade DATE,
     status_reserva ENUM('Aguardando pagamento', 'Concluída', 'Cancelada') DEFAULT 'Aguardando pagamento',
-    FOREIGN KEY (id_usuario) REFERENCES USUARIO(id_usuario)
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
 );
 
-SELECT * FROM reserva;
+SELECT * FROM reservas;
 
 
-CREATE TABLE itens_reserva(
+CREATE TABLE itens_reservas(
     id_reserva INT NOT NULL,
     id_produto INT NOT NULL UNIQUE,
     PRIMARY KEY (id_reserva, id_produto),
-    FOREIGN KEY (id_reserva) REFERENCES reserva(id_reserva),
-    FOREIGN KEY (id_produto) REFERENCES produto(id_produto)
+    FOREIGN KEY (id_reserva) REFERENCES reservas(id_reserva),
+    FOREIGN KEY (id_produto) REFERENCES produtos(id_produto)
 );
-SELECT * FROM itens_reserva;
+SELECT * FROM itens_reservas;
 
 DELIMITER //
 
@@ -54,13 +54,13 @@ BEGIN
         nome,
         tipo_usuario
     FROM
-        usuario
+        usuarios
     WHERE
         email = p_email
         AND senha = p_senha;
 END; //
 
-DELIMITER;
+DELIMITER ;
 
 DELIMITER //
 
@@ -72,7 +72,7 @@ CREATE PROCEDURE PROC_CADASTRAR_USUARIO(
     IN p_tipo_usuario VARCHAR(100)
 )
 BEGIN
-    INSERT INTO usuario (nome, telefone, email, senha, tipo_usuario)
+    INSERT INTO usuarios (nome, telefone, email, senha, tipo_usuario)
     VALUES (p_nome, p_telefone, p_email, p_senha, p_tipo_usuario);
 
 END //
@@ -88,7 +88,7 @@ CREATE PROCEDURE PROC_CADASTRAR_PRODUTO(
     IN p_status VARCHAR(20)
 )
 BEGIN
-    INSERT INTO produto(nome_produto, descricao, preco, status)
+    INSERT INTO produtos(nome_produto, descricao, preco, status)
     VALUES (p_nome_produto, p_descricao, p_preco, p_status);
 
 END //
@@ -106,7 +106,7 @@ BEGIN
         preco,
         status
     FROM
-        produto;
+        produtos;
 END //
 
 DELIMITER ;
@@ -124,7 +124,7 @@ BEGIN
         preco,
         status
     FROM
-        produto
+        produtos
     WHERE
         id_produto = p_id_produto;
 END //
@@ -144,7 +144,7 @@ BEGIN
         preco,
         status
     FROM
-        produto
+        produtos
     WHERE
         nome_produto LIKE CONCAT('%', p_nome, '%');
 END //
@@ -160,7 +160,7 @@ CREATE PROCEDURE PROC_CRIAR_RESERVA(
     OUT p_id_gerado INT
 )
 BEGIN
-    INSERT INTO reserva (id_usuario, total_reserva, metodo_pagamento, data_validade)
+    INSERT INTO reservas (id_usuario, total_reserva, metodo_pagamento, data_validade)
     VALUES (p_id_usuario, p_total, p_metodo, DATE_ADD(CURRENT_DATE(), INTERVAL 7 DAY));
 
     SET p_id_gerado = LAST_INSERT_ID();
@@ -178,10 +178,10 @@ CREATE PROCEDURE PROC_INSERIR_ITEM_RESERVA(
 )
 BEGIN
 
-    INSERT INTO itens_reserva (id_reserva, id_produto)
+    INSERT INTO itens_reservas (id_reserva, id_produto)
     VALUES (p_id_reserva, p_id_produto);
 
-    UPDATE produto
+    UPDATE produtos
     SET status = 'Reservado'
     WHERE id_produto = p_id_produto;
 END //
@@ -202,7 +202,7 @@ BEGIN
         data_validade,
         status_reserva
     FROM
-        reserva
+        reservas
     WHERE
         id_usuario = p_id_usuario;
 END //
@@ -222,9 +222,9 @@ BEGIN
         p.descricao,
         p.preco
     FROM
-        itens_reserva ir
+        itens_reservas ir
     INNER JOIN
-        produto p ON ir.id_produto = p.id_produto
+        produtos p ON ir.id_produto = p.id_produto
     WHERE
         ir.id_reserva = p_id_reserva;
 END //
@@ -246,7 +246,7 @@ BEGIN
         data_validade,
         status_reserva
     FROM
-        reserva
+        reservas
     WHERE
         id_reserva = p_id_reserva
         AND id_usuario = p_id_usuario;
@@ -267,9 +267,9 @@ BEGIN
         r.data_validade,
         r.status_reserva
     FROM
-        reserva r
+        reservas r
     INNER JOIN
-        usuario u ON r.id_usuario = u.id_usuario
+        usuarios u ON r.id_usuario = u.id_usuario
     ORDER BY
         r.data_reserva DESC;
 END //
@@ -291,9 +291,9 @@ BEGIN
         r.data_validade,
         r.status_reserva
     FROM
-        reserva r
+        reservas r
     INNER JOIN
-        usuario u ON r.id_usuario = u.id_usuario
+        usuarios u ON r.id_usuario = u.id_usuario
     WHERE
         r.id_reserva = p_id_reserva;
 END //
@@ -315,9 +315,9 @@ BEGIN
         r.data_validade,
         r.status_reserva
     FROM
-        reserva r
+        reservas r
     INNER JOIN
-        usuario u ON r.id_usuario = u.id_usuario
+        usuarios u ON r.id_usuario = u.id_usuario
     WHERE
         u.nome LIKE CONCAT('%', p_nome_cliente, '%')
     ORDER BY
@@ -334,22 +334,22 @@ CREATE PROCEDURE PROC_ATUALIZAR_STATUS_RESERVA(
 )
 BEGIN
     -- 1. Atualiza o status da reserva principal
-    UPDATE reserva
+    UPDATE reservas
     SET status_reserva = p_novo_status
     WHERE id_reserva = p_id_reserva;
 
     -- 2. Se a reserva for CANCELADA, os produtos voltam a ficar Disponíveis
     IF p_novo_status = 'Cancelada' THEN
-        UPDATE produto p
-        INNER JOIN itens_reserva ir ON p.id_produto = ir.id_produto
+        UPDATE produtos p
+        INNER JOIN itens_reservas ir ON p.id_produto = ir.id_produto
         SET p.status = 'Disponível'
         WHERE ir.id_reserva = p_id_reserva;
     END IF;
 
     -- 3. Se a reserva for CONCLUÍDA, os produtos passam definitivamente para Vendidos
     IF p_novo_status = 'Concluída' THEN
-        UPDATE produto p
-        INNER JOIN itens_reserva ir ON p.id_produto = ir.id_produto
+        UPDATE produtos p
+        INNER JOIN itens_reservas ir ON p.id_produto = ir.id_produto
         SET p.status = 'Vendido'
         WHERE ir.id_reserva = p_id_reserva;
     END IF;
@@ -358,10 +358,10 @@ END //
 
 DELIMITER ;
 
-SELECT * FROM renova.usuario;
-SELECT * FROM renova.produto;
+SELECT * FROM renova.usuarios;
+SELECT * FROM renova.produtos;
 
-INSERT INTO produto (nome_produto, descricao, preco, status) VALUES
+INSERT INTO produtos (nome_produto, descricao, preco, status) VALUES
 ('Camisa Social Branca', 'Camisa manga longa 100% algodão', 89.90, 'Disponível'),
 ('Calça Jeans Masculina', 'Calça jeans azul tamanho 40', 120.50, 'Disponível'),
 ('Tênis de Corrida', 'Tênis esportivo preto tamanho 42', 199.99, 'Vendido'),
@@ -383,7 +383,7 @@ INSERT INTO produto (nome_produto, descricao, preco, status) VALUES
 ('Cachecol Xadrez', 'Cachecol de lã macia para o inverno', 45.90, 'Disponível'),
 ('Mochila Escolar', 'Mochila preta com vários compartimentos', 110.00, 'Disponível');
 
-INSERT INTO produto (nome_produto, descricao, preco, status) VALUES
+INSERT INTO produtos (nome_produto, descricao, preco, status) VALUES
 ('Blusa de Seda', 'Blusa feminina de seda pura manga curta', 145.00, 'Disponível'),
 ('Bermuda Sarja', 'Bermuda masculina de sarja bege', 89.90, 'Disponível'),
 ('Gorro de Lã', 'Gorro unissex de lã para frio extremo', 35.00, 'Vendido'),
@@ -405,5 +405,5 @@ INSERT INTO produto (nome_produto, descricao, preco, status) VALUES
 ('Boné Aba Reta', 'Boné estilo urbano com ajuste', 40.00, 'Reservado'),
 ('Luvas de Couro', 'Luvas de couro forradas de inverno', 110.00, 'Disponível');
 
-INSERT INTO usuario (nome, telefone, email, senha, tipo_usuario)
+INSERT INTO usuarios (nome, telefone, email, senha, tipo_usuario)
 VALUES ('Funcionário Padrão', '11999999999', 'funcionario1@gmail.com', '12345', 'FUNCIONARIO');
